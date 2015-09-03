@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: todolist_development
+
+test:
+  <<: *default
+  database: todolist_test
+
+production:
+  <<: *default
+  database: todolist_production
+  username: todolist
+  password: <%= ENV['TODOLIST_DATABASE_PASSWORD'] %>
