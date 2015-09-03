@@ -12,10 +12,26 @@ gem 'sdoc',         '~> 0.4.0', group: :doc
 
 group :development, :test do
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec'
 end
 
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'pry-rails'
+  gem 'pry-doc'
+  gem 'better_errors'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'faker'
+  gem 'launchy'
+  gem 'codeclimate-test-reporter'
 end
 
