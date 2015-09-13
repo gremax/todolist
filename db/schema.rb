@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150904105019) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
-    t.string   "name"
+    t.string   "title",      null: false
     t.integer  "priority"
   end
 

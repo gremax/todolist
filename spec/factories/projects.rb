@@ -1,8 +1,13 @@
 FactoryGirl.define do
   factory :project do
-    user
-    name "MyString"
+    title { Faker::Lorem.sentence }
     priority 1
+    user
+  end
+
+  factory :project_invalid do
+    title ''
+    user
   end
 
 end

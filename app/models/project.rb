@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  validates :user, :name, presence: true
+  validates :user, :title, presence: true
 
   belongs_to :user
 end
