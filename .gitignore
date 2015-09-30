@@ -15,3 +15,6 @@
 /.ruby-gemset
 /.powenv
 /.env
+
+# Ignore bower components
+/lib/assets/bower_components
