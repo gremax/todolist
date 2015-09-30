@@ -4,4 +4,8 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:password) }
     it { should validate_uniqueness_of(:email).case_insensitive }
   end
+
+  describe 'association' do
+    it { should have_many(:projects).dependent(:destroy) }
+  end
 end
