@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :task do
-    title "MyString"
+    title { Faker::Lorem.sentence }
     complete false
     priority 1
-    due_date "2015-09-30"
-    project nil
+    due_date { Time.now }
+    project
   end
 
 end

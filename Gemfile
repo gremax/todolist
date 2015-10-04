@@ -13,6 +13,7 @@ gem 'haml-rails'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'bower-rails'
+gem 'cancancan',    '~> 1.10'
 
 group :development, :test do
   gem 'byebug'
