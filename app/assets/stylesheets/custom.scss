@@ -1,2 +1,44 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+h1, h2 {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.complete-true {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.complete-false {
+  text-decoration: underline;
+  color: red;
+}
+
+.glyphicon {
+  cursor:pointer;
+}
+
+.complete {
+  width: 35px;
+  border-right: 1px solid pink;
+}
+
+.options-task {
+  width: 100px;
+  text-align: right;
+}
+
+.edit-task {
+  display: none;
+}
+
+.editing-task {
+  display: inline;
+}
+
+.panel, .panel-heading {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
