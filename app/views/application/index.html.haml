@@ -1,5 +1,5 @@
-.div{ng: {repeat: 'project in todo.projects'}}
-  .panel.panel-primary
+.div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
+  .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
     .panel-heading{ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
       %span.glyphicon.glyphicon-calendar
       {{project.title}}
@@ -11,9 +11,9 @@
           %input.form-control{type: 'text', placeholder: 'Enter a new task for create... ', ng: {model: 'taskCtrl.task.title'}, required: true}
           .input-group-btn
             %button.btn.btn-success Add task
-    %table.table{ng: {controller: 'TaskController as taskCtrl'}}
+    %table.table
       %tbody
-        %tr{ng: {repeat: "task in project.tasks | orderBy: ['complete', '-created_at']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
+        %tr{ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
           %td.complete
             %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
           %td{ng: {dblclick: 'showInputTask = true'}}

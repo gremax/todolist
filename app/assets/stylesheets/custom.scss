@@ -41,4 +41,11 @@ h1, h2 {
 .panel, .panel-heading {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  .panel-heading {
+    cursor: move;
+  }
+}
+
+.table tr {
+  cursor: move;
 }

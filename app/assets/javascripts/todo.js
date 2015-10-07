@@ -1,4 +1,4 @@
-var todoApp = angular.module('todoApp', ['ngResource']);
+var todoApp = angular.module('todoApp', ['ngResource', 'ui.sortable']);
 
 /**
  * Configuration
@@ -19,10 +19,10 @@ todoApp.config(['$httpProvider', function($httpProvider){
 
 todoApp.controller('TodoController', ['Project', function(Project){
   var todo = this;
-  this.projects = Project.query();
+  todo.projects = Project.query();
 
-  this.addProject = function(){
-    Project.save(this.project, function(resource){
+  todo.addProject = function(){
+    Project.save(todo.project, function(resource){
       resource.tasks = [];
       todo.projects.push(resource);
       todo.project = {};
@@ -31,7 +31,7 @@ todoApp.controller('TodoController', ['Project', function(Project){
     });
   };
 
-  this.delProject = function(project){
+  todo.delProject = function(project){
     var confirmation = confirm('Are you sure?');
 
     if (confirmation) {
@@ -46,6 +46,20 @@ todoApp.controller('TodoController', ['Project', function(Project){
       });
     };
   };
+
+  todo.sortableOptions = {
+    stop: function(e, ui) {
+      _.map(todo.projects, function(project, index) {
+        Project.update({id: project.id}, {priority: index}, function(resource){
+          console.log('update projects priority');
+        }, function(response){
+          console.log('Error ' + response.status)
+        });
+      });
+    },
+    'ui-floating': false,
+    axis: 'y'
+  };
 }]);
 
 /**
@@ -55,8 +69,8 @@ todoApp.controller('TodoController', ['Project', function(Project){
 todoApp.controller('TaskController', ['Task', function(Task){
   var taskCtrl = this;
 
-  this.addTask = function(project){
-    Task.save({project_id: project.id, task: this.task}, function(resource){
+  taskCtrl.addTask = function(project){
+    Task.save({project_id: project.id, task: taskCtrl.task}, function(resource){
       project.tasks.push(resource);
       taskCtrl.task = {};
     }, function(response){
@@ -64,7 +78,7 @@ todoApp.controller('TaskController', ['Task', function(Task){
     });
   };
 
-  this.delTask = function(project, task){
+  taskCtrl.delTask = function(project, task){
     var confirmation = confirm('Are you sure?');
 
     if (confirmation) {
@@ -80,7 +94,7 @@ todoApp.controller('TaskController', ['Task', function(Task){
     };
   };
 
-  this.completeTask = function(project, task){
+  taskCtrl.completeTask = function(project, task){
     Task.update({project_id: project.id, id: task.id}, {complete: task.complete}, function(resource){
       console.log('Complete');
     }, function(response){

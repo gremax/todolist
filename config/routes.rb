@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'application#index'
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :projects, only: [:index, :create, :destroy] do
+      resources :projects, only: [:index, :create, :update, :destroy] do
         resources :tasks, only: [:create, :update, :destroy]
       end
     end

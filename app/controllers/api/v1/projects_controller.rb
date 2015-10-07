@@ -7,11 +7,16 @@ module Api
       respond_to :json
 
       def index
+        @projects = Project.order(:priority)
         respond_with :api, :v1, @projects, include: 'tasks'
       end
 
       def create
         respond_with :api, :v1, current_user.projects.create(project_params)
+      end
+
+      def update
+        respond_with :api, :v1, @project.update(project_params)
       end
 
       def destroy
@@ -21,7 +26,7 @@ module Api
       private
 
       def project_params
-        params.require(:project).permit(:title, :tasks)
+        params.require(:project).permit(:title, :priority, :tasks)
       end
     end
   end
