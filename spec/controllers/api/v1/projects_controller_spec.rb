@@ -9,7 +9,7 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
 
     it 'assigns all projects as @projects' do
       projects = create_list(:project, 3, user: @user)
-      get :index, forman: :json
+      get :index, format: :json
       expect(assigns(:projects)).to match_array projects
     end
   end

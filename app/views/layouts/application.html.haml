@@ -19,6 +19,9 @@
           %li= link_to 'Sign in', new_user_session_path
           %li= link_to 'Sign up', new_user_registration_path
     .row
-      %h1 TodoList App
-      .col-md-6.col-md-offset-3
-        = yield
+      %h1
+        Simple Todo Lists
+        %br
+        %small From Ruby Garage
+      = yield
+    .copyright.text-center &copy; Ruby Garage

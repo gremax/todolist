@@ -1,32 +1,36 @@
-.div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
-  .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
-    .panel-heading{ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
-      %span.glyphicon.glyphicon-calendar
-      {{project.title}}
-      .pull-right{ng: {show: 'optionsProject'}}
-        %span.glyphicon.glyphicon-trash{ng: {click: 'todo.delProject(project)'}}
-    .panel-body
-      %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && taskCtrl.addTask(project)'}, novalidate: true}
-        .input-group
-          %input.form-control{type: 'text', placeholder: 'Enter a new task for create... ', ng: {model: 'taskCtrl.task.title'}, required: true}
-          .input-group-btn
-            %button.btn.btn-success Add task
-    %table.table
-      %tbody
-        %tr{ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
-          %td.complete
-            %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
-          %td{ng: {dblclick: 'showInputTask = true'}}
-            %span{ng: {hide: 'showInputTask'}} {{task.title}}
-            %input.edit-task{type: 'text', ng: {model: 'task.title'}}
-          %td.options-task
-            .div{ng: {show: 'optionsTask'}}
-              %span.glyphicon.glyphicon-trash{ng: {click: 'taskCtrl.delTask(project, task)'}}
+.col-md-6.col-md-offset-3
+  .div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
+    .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
+      .panel-heading{ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
+        %h4.panel-title.pull-left
+          %span.glyphicon.glyphicon-calendar
+          {{project.title}}
+        .pull-right{ng: {show: 'optionsProject'}}
+          %span.glyphicon.glyphicon-trash{ng: {click: 'todo.delProject(project)'}}
+      .panel-body
+        %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && taskCtrl.addTask(project)'}, novalidate: true}
+          .input-group.input-group-sm
+            %input.form-control{type: 'text', placeholder: 'Enter a new task for create... ', ng: {model: 'taskCtrl.task.title'}, required: true}
+            .input-group-btn
+              %button.btn.btn-success Add task
+      %table.table
+        %tbody{ng: {controller: 'TaskController as taskCtrl'}}
+          %tr{ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
+            %td.complete
+              %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
+            %td{ng: {dblclick: 'showInputTask = true'}}
+              %span{ng: {hide: 'showInputTask'}} {{task.title}}
+              %input.edit-task{type: 'text', ng: {model: 'task.title'}}
+            %td.options-task
+              .div{ng: {show: 'optionsTask'}}
+                %span.glyphicon.glyphicon-trash{ng: {click: 'taskCtrl.delTask(project, task)'}}
 
-.text-center
-  %button.btn.btn-primary{ng: {click: 'isVisible = true', hide: 'isVisible'}} Add project
-%form{name: 'projectForm', ng: {submit: 'projectForm.$valid && todo.addProject()'}}
-  .input-group{ng: {show: 'isVisible'}}
-    %input.form-control{type: 'text', placeholder: 'Add a new project', ng: {model: 'todo.project.title'}, required: true}
-    .input-group-btn
-      %button.btn.btn-primary{ng: {click: 'isVisible = false', disabled: 'projectForm.$invalid'}} Add project
+  .text-center
+    %button.btn.btn-lg.btn-primary{ng: {click: 'isVisible = true', hide: 'isVisible'}}
+      %span.glyphicon.glyphicon-plus
+      Add TODO List
+  %form{name: 'projectForm', ng: {submit: 'projectForm.$valid && todo.addProject()'}}
+    .input-group{ng: {show: 'isVisible'}}
+      %input.form-control{type: 'text', placeholder: 'Add a new project', ng: {model: 'todo.project.title'}, required: true}
+      .input-group-btn
+        %button.btn.btn-primary{ng: {click: 'isVisible = false', disabled: 'projectForm.$invalid'}} Add project
