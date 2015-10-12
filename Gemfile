@@ -40,5 +40,6 @@ group :test do
   gem 'faker'
   gem 'launchy'
   gem 'codeclimate-test-reporter'
+  gem 'poltergeist'
 end
 

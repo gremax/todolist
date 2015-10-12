@@ -1,21 +1,21 @@
 .col-md-6.col-md-offset-3
   .div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
     .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
-      .panel-heading{ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
+      .panel-heading{id: 'project-{{project.id}}' ,ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
         %h4.panel-title.pull-left
           %span.glyphicon.glyphicon-calendar
           {{project.title}}
         .pull-right{ng: {show: 'optionsProject'}}
-          %span.glyphicon.glyphicon-trash{ng: {click: 'todo.delProject(project)'}}
+          %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}',ng: {click: 'todo.delProject(project)'}}
       .panel-body
         %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && taskCtrl.addTask(project)'}, novalidate: true}
           .input-group.input-group-sm
-            %input.form-control{type: 'text', placeholder: 'Enter a new task for create... ', ng: {model: 'taskCtrl.task.title'}, required: true}
+            %input.form-control{id: 'new-task', type: 'text', placeholder: 'Start typing here to create a task...', ng: {model: 'taskCtrl.task.title'}, required: true}
             .input-group-btn
               %button.btn.btn-success Add task
       %table.table
         %tbody{ng: {controller: 'TaskController as taskCtrl'}}
-          %tr{ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
+          %tr{id: 'task-{{task.id}}', ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
             %td.complete
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
             %td{ng: {dblclick: 'showInputTask = true'}}
@@ -23,10 +23,10 @@
               %input.edit-task{type: 'text', ng: {model: 'task.title'}}
             %td.options-task
               .div{ng: {show: 'optionsTask'}}
-                %span.glyphicon.glyphicon-trash{ng: {click: 'taskCtrl.delTask(project, task)'}}
+                %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}' ,ng: {click: 'taskCtrl.delTask(project, task)'}}
 
   .text-center
-    %button.btn.btn-lg.btn-primary{ng: {click: 'isVisible = true', hide: 'isVisible'}}
+    %button.btn.btn-lg.btn-primary#new-project{ng: {click: 'isVisible = true', hide: 'isVisible'}}
       %span.glyphicon.glyphicon-plus
       Add TODO List
   %form{name: 'projectForm', ng: {submit: 'projectForm.$valid && todo.addProject()'}}
