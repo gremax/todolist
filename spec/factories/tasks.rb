@@ -7,4 +7,8 @@ FactoryGirl.define do
     project
   end
 
+  factory :task_invalid, class: Task do
+    title ''
+  end
+
 end

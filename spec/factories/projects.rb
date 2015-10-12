@@ -5,7 +5,7 @@ FactoryGirl.define do
     user
   end
 
-  factory :project_invalid do
+  factory :project_invalid, class: Project do
     title ''
     user
   end

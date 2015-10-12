@@ -8,7 +8,7 @@ module Api
 
       def index
         @projects = Project.order(:priority)
-        respond_with :api, :v1, @projects, include: 'tasks'
+        render json: @projects, include: 'tasks'
       end
 
       def create
@@ -16,11 +16,11 @@ module Api
       end
 
       def update
-        respond_with :api, :v1, @project.update(project_params)
+        respond_with @project.update(project_params)
       end
 
       def destroy
-        respond_with :api, :v1, @project.destroy
+        respond_with @project.destroy
       end
 
       private

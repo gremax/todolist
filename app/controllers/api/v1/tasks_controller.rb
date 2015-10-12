@@ -11,11 +11,11 @@ module Api
       end
 
       def update
-        respond_with :api, :v1, @task.update(task_params)
+        respond_with @task.update(task_params)
       end
 
       def destroy
-        respond_with :api, :v1, @task.destroy
+        respond_with @task.destroy
       end
 
       private
