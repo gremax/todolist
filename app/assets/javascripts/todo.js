@@ -107,6 +107,10 @@ todoApp.controller('TodoController', ['Project', function(Project){
 todoApp.controller('TaskController', ['Task', function(Task){
   var taskCtrl = this;
 
+  /**
+   * Add a task
+   * */
+
   taskCtrl.addTask = function(project){
     Task.save({project_id: project.id, task: taskCtrl.task}, function(resource){
       project.tasks.push(resource);
@@ -115,6 +119,36 @@ todoApp.controller('TaskController', ['Task', function(Task){
        console.log('Error ' + response.status);
     });
   };
+
+  /**
+   * Update a task title
+   * */
+
+  taskCtrl.updateTask = function(task, title){
+    Task.update({project_id: task.project_id, id: task.id, title: title}, function(resource){
+    }, function(response){
+      console.log('Error ' + response.status);
+    });
+  }
+
+  /**
+   * Inline edit
+   * */
+
+  taskCtrl.editOnEnter = function(task){
+    if(event.keyCode == 13 && task.title){
+      taskCtrl.updateTask(task, task.title);
+      taskCtrl.toggleEdit();
+    }
+  }
+
+  taskCtrl.toggleEdit = function(){
+    $(event.target).closest('div').toggleClass('editing');
+  }
+
+  /**
+   * Delete a task
+   * */
 
   taskCtrl.delTask = function(project, task){
     var confirmation = confirm('Are you sure?');
@@ -131,6 +165,10 @@ todoApp.controller('TaskController', ['Task', function(Task){
       });
     };
   };
+
+  /**
+   * Complete a task
+   * */
 
   taskCtrl.completeTask = function(project, task){
     Task.update({project_id: project.id, id: task.id}, {complete: task.complete}, function(resource){
@@ -157,7 +195,7 @@ todoApp.factory('Project', ['$resource', function($resource){
 todoApp.factory('Task', ['$resource', function($resource){
   return $resource('/api/v1/projects/:project_id/tasks/:id', { project_id: '@project_id', id: '@id' },
     {
-      'update':  { method: 'PATCH' },
+      'update':  { method: 'PUT' },
       'destroy': { method: 'DELETE' }
     }
   );
