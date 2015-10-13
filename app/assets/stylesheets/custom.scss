@@ -48,12 +48,25 @@ h2 {
   text-align: right;
 }
 
-.edit-task {
+.view {
+  cursor: text;
+}
+
+.edit {
   display: none;
 }
 
-.editing-task {
-  display: inline;
+div.editing {
+  .view {
+    display: none;
+  }
+  input {
+    width: 80%;
+  }
+  .edit {
+    color: #999;
+    display: inline;
+  }
 }
 
 .panel {
@@ -69,8 +82,9 @@ h2 {
     cursor: move;
     padding-top: 12px;
   }
-  .panel-body {
+  .new-task {
     height: 49px;
+    padding: 10px;
     background: asset-url('bg-task-form.png') repeat-x 0 0;
   }
 }

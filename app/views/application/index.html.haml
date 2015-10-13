@@ -1,13 +1,15 @@
 .col-md-6.col-md-offset-3
   .div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
     .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
-      .panel-heading{id: 'project-{{project.id}}' ,ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
-        %h4.panel-title.pull-left
+      .panel-heading{id: 'project-{{project.id}}', ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
+        .panel-title.pull-left
           %span.glyphicon.glyphicon-calendar
-          {{project.title}}
+          %span.view{ng: {dblclick: 'todo.toggleEdit()'}}
+            {{project.title}}
+          %input.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'todo.editOnEnter(project)'}}
         .pull-right{ng: {show: 'optionsProject'}}
           %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}',ng: {click: 'todo.delProject(project)'}}
-      .panel-body
+      .new-task
         %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && taskCtrl.addTask(project)'}, novalidate: true}
           .input-group.input-group-sm
             %input.form-control{id: 'new-task', type: 'text', placeholder: 'Start typing here to create a task...', ng: {model: 'taskCtrl.task.title'}, required: true}
@@ -20,7 +22,7 @@
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
             %td{ng: {dblclick: 'showInputTask = true'}}
               %span{ng: {hide: 'showInputTask'}} {{task.title}}
-              %input.edit-task{type: 'text', ng: {model: 'task.title'}}
+              %input.edit-task{type: 'text', ng: {model: 'task.title', show: 'showInputTask'}}
             %td.options-task
               .div{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}' ,ng: {click: 'taskCtrl.delTask(project, task)'}}
