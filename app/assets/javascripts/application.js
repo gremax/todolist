@@ -11,13 +11,17 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap/dropdown
 //= require jquery-ui
 //= require jquery_ujs
+//= require moment/moment
 //= require angular
 //= require angular-rails-templates
 //= require angular-ui-router
 //= require angular-resource
 //= require angular-ui-sortable
+//= require angular-bootstrap-datetimepicker
+//= require angular-bootstrap-datetimepicker/src/js/datetimepicker
 //= require lodash
 //= require_tree ./templates
 //= require_tree .

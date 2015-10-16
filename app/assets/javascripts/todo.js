@@ -1,4 +1,4 @@
-var todoApp = angular.module('todoApp', ['ngResource', 'ui.sortable']);
+var todoApp = angular.module('todoApp', ['ngResource', 'ui.sortable', 'ui.bootstrap.datetimepicker']);
 
 /**
  * Configuration
@@ -184,6 +184,15 @@ todoApp.controller('TaskController', ['Task', function(Task){
     }, function(response){
       console.log('Error ' + response.status)
     });
+  };
+
+  /**
+   * Set due date
+   * */
+
+  taskCtrl.setDue = function(task){
+    Task.update({project_id: task.project_id, id: task.id}, {due_date: task.due_date});
+    $scope.optionsTask = false;
   };
 }]);
 

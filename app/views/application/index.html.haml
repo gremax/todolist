@@ -24,14 +24,16 @@
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
             %td.task-title
               %div
-                %span.view{ng: {dblclick: 'taskCtrl.dblclickEdit()'}}{{task.title}}
+                %span.view{ng: {dblclick: 'taskCtrl.dblclickEdit()'}}{{task.title}} {{(task.due_date|date:'yyyy-MM-dd')}}
                 %input.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'taskCtrl.editOnEnter(task)'}}
             %td.options-task
-              %div{ng: {show: 'optionsTask'}}
+              %div.dropdown{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'taskCtrl.toggleEdit()'}}
+                %span.glyphicon.glyphicon-time.dropdown-toggle{id: 'due-task-{{task.id}}', 'data-toggle': 'dropdown'}
                 %span.glyphicon.glyphicon-move
                 %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'taskCtrl.delTask(project, task)'}}
-
+                %ul.dropdown-menu
+                  %datetimepicker{ng: {model: 'task.due_date'}, 'on-set-time': 'taskCtrl.setDue(task)', datetimepicker: {config: "{ dropdownSelector: '#due-task-{{task.id}}', minView: 'day' }"}}
   .text-center
     %button.btn.btn-lg.btn-primary#new-project{ng: {click: 'isVisible = true', hide: 'isVisible'}}
       %span.glyphicon.glyphicon-plus

@@ -6,6 +6,7 @@
       "angular-ui-router": "latest",
       "angular-resource": "latest",
       "angular-ui-sortable": "latest",
+      "angular-bootstrap-datetimepicker": "latest",
       "lodash": "latest"
     }
   },
