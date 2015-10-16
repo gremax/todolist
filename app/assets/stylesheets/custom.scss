@@ -4,7 +4,6 @@
 body {
   background: #ba680f asset-url('background.png') repeat-x 0 0;
   padding-bottom: 30px;
-  border-bottom: 6px solid #333;
 }
 
 h1 {
@@ -33,19 +32,34 @@ h2 {
   color: red;
 }
 
-.glyphicon {
-  cursor:pointer;
-}
-
 .complete {
   width: 40px;
   text-align: center;
   border-right: double 4px #efdadf;
 }
 
+.project-options {
+  color: #98b0d2;
+  .glyphicon {
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  .glyphicon-move {
+    cursor: move;
+  }
+}
+
 .options-task {
+  color: #999;
   width: 100px;
   text-align: right;
+  .glyphicon {
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  .glyphicon-move {
+    cursor: move;
+  }
 }
 
 .view {
@@ -79,13 +93,15 @@ div.editing {
     background: asset-url('bg-project-head.png') repeat-x 0 0;
     height: 45px;
     vertical-align: center;
-    cursor: move;
     padding-top: 12px;
   }
   .new-task {
     height: 49px;
     padding: 10px;
     background: asset-url('bg-task-form.png') repeat-x 0 0;
+    .btn-success {
+      width: 90px;
+    }
   }
 }
 
@@ -95,7 +111,6 @@ form .task-input {
 
 .table {
   tr {
-    cursor: move;
     &:hover {
       background-color: #fcfed5;
     }
@@ -114,10 +129,6 @@ form .task-input {
   border-radius: 3px;
   height: 46px;
   background: asset-url('bg-project-btn.png') repeat-x 0 0;
-}
-
-.glyphicon {
-  color: #98b0d2;
 }
 
 .btn-success {

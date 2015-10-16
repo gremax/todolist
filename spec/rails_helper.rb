@@ -53,13 +53,42 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each) do
-    DatabaseCleaner.start
+  config.around(:each) do |spec|
+    if spec.metadata[:js] || spec.metadata[:test_commit]
+      # JS => run with PhantomJS that doesn't share connections => can't use transactions
+      # deletion is often faster than truncation on Postgres - doesn't vacuum
+      # no need to 'start', clean_with is sufficient for deletion
+      # Devise Emails: devise-async sends confirmation on commit only! => can't use transactions
+      spec.run
+      DatabaseCleaner.clean_with :deletion
+    else
+      # No JS/Devise => run with Rack::Test => transactions are ok
+      DatabaseCleaner.start
+      spec.run
+      DatabaseCleaner.clean
+      # see https://github.com/bmabey/database_cleaner/issues/99
+      begin
+        ActiveRecord::Base.connection.send(:rollback_transaction_records, true)
+      rescue
+      end
+    end
   end
 
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
+  # config.before(:each) do
+  #   DatabaseCleaner.strategy = :transaction
+  # end
+
+  # config.before(:each, js: true) do
+  #   DatabaseCleaner.strategy = :truncation
+  # end
+
+  # config.before(:each) do
+  #   DatabaseCleaner.start
+  # end
+
+  # config.after(:each) do
+  #   DatabaseCleaner.clean
+  # end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

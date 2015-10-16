@@ -2,12 +2,14 @@
   .div{ui: {sortable: 'todo.sortableOptions'}, ng: {model: 'todo.projects'}}
     .panel.panel-primary{ng: {repeat: 'project in todo.projects'}}
       .panel-heading{id: 'project-{{project.id}}', ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
-        .panel-title.pull-left
+        .panel-title.pull-left{id: 'ph'}
           %span.glyphicon.glyphicon-calendar
-          %span.view{ng: {dblclick: 'todo.toggleEdit()'}}
+          %span.view{ng: {dblclick: 'todo.dblclickEdit()'}}
             {{project.title}}
           %input.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'todo.editOnEnter(project)'}}
-        .pull-right{ng: {show: 'optionsProject'}}
+        .pull-right.project-options{ng: {show: 'optionsProject'}}
+          %span.glyphicon.glyphicon-pencil{id: 'edit-project-{{project.id}}', ng: {click: 'todo.toggleEdit()'}}
+          %span.glyphicon.glyphicon-move
           %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}', ng: {click: 'todo.delProject(project)'}}
       .new-task
         %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && taskCtrl.addTask(project)'}, novalidate: true}
@@ -20,13 +22,15 @@
           %tr{id: 'task-{{task.id}}', ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
             %td.complete
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'taskCtrl.completeTask(project, task)'}}
-            %td
+            %td.task-title
               %div
-                %span.view{ng: {dblclick: 'taskCtrl.toggleEdit()'}}{{task.title}}
+                %span.view{ng: {dblclick: 'taskCtrl.dblclickEdit()'}}{{task.title}}
                 %input.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'taskCtrl.editOnEnter(task)'}}
             %td.options-task
-              .div{ng: {show: 'optionsTask'}}
-                %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}' ,ng: {click: 'taskCtrl.delTask(project, task)'}}
+              %div{ng: {show: 'optionsTask'}}
+                %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'taskCtrl.toggleEdit()'}}
+                %span.glyphicon.glyphicon-move
+                %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'taskCtrl.delTask(project, task)'}}
 
   .text-center
     %button.btn.btn-lg.btn-primary#new-project{ng: {click: 'isVisible = true', hide: 'isVisible'}}

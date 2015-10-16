@@ -51,13 +51,17 @@ todoApp.controller('TodoController', ['Project', function(Project){
    * */
 
   todo.toggleEdit = function(){
+    $(event.target).parent('div').siblings().toggleClass('editing');
+  }
+
+  todo.dblclickEdit = function(){
     $(event.target).closest('div').toggleClass('editing');
   }
 
   todo.editOnEnter = function(project){
     if(event.keyCode == 13 && project.title){
       todo.updateProject(project, project.title);
-      todo.toggleEdit();
+      todo.dblclickEdit();
     }
   }
 
@@ -135,15 +139,19 @@ todoApp.controller('TaskController', ['Task', function(Task){
    * Inline edit
    * */
 
+  taskCtrl.toggleEdit = function(){
+    $(event.target).closest('tr').find('td.task-title div').toggleClass('editing');
+  }
+
+  taskCtrl.dblclickEdit = function(){
+    $(event.target).closest('div').toggleClass('editing');
+  }
+
   taskCtrl.editOnEnter = function(task){
     if(event.keyCode == 13 && task.title){
       taskCtrl.updateTask(task, task.title);
-      taskCtrl.toggleEdit();
+      taskCtrl.dblclickEdit();
     }
-  }
-
-  taskCtrl.toggleEdit = function(){
-    $(event.target).closest('div').toggleClass('editing');
   }
 
   /**

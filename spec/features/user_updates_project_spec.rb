@@ -5,14 +5,23 @@ feature 'User updates a project' do
   background do
     sign_in(user)
     visit root_path
-    sleep 0.1
+    sleep 0.5
   end
 
-  scenario 'User updates a project title', js: true do
+  scenario 'User updates a project title by double click', js: true do
     expect(page).to have_content project.title
     find('.view').double_click
     fill_in 'edit-project', with: 'My new project'
     find('#edit-project').native.send_keys(:return)
+    expect(page).to have_content 'My new project'
+  end
+
+  scenario 'User updates a project title by button click', js: true do
+    expect(page).to have_content project.title
+    find("#project-#{project.id}").hover
+    find("#edit-project-#{project.id}").click
+    fill_in 'edit-project', with: 'My new project'
+    find("#edit-project-#{project.id}").click
     expect(page).to have_content 'My new project'
   end
 end
