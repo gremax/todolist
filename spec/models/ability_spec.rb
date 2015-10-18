@@ -11,7 +11,7 @@ RSpec.describe Ability, type: :model do
       let(:project) { create(:project) }
 
       it { expect(ability).not_to be_able_to(:read, project) }
-      it { expect(ability).not_to be_able_to(:create, Project.new) }
+      it { expect(ability).not_to be_able_to(:create, Project) }
       it { expect(ability).not_to be_able_to(:update, project) }
       it { expect(ability).not_to be_able_to(:destroy, project) }
     end
@@ -20,9 +20,18 @@ RSpec.describe Ability, type: :model do
       let(:task) { create(:task) }
 
       it { expect(ability).not_to be_able_to(:read, task) }
-      it { expect(ability).not_to be_able_to(:create, Task.new) }
+      it { expect(ability).not_to be_able_to(:create, Task) }
       it { expect(ability).not_to be_able_to(:update, task) }
       it { expect(ability).not_to be_able_to(:destroy, task) }
+    end
+
+    context 'for comments' do
+      let(:comment) { create(:comment) }
+
+      it { expect(ability).not_to be_able_to(:read, comment) }
+      it { expect(ability).not_to be_able_to(:create, Comment) }
+      it { expect(ability).not_to be_able_to(:update, comment) }
+      it { expect(ability).not_to be_able_to(:destroy, comment) }
     end
   end
 
@@ -45,6 +54,16 @@ RSpec.describe Ability, type: :model do
       it { expect(ability).to be_able_to(:create, Task) }
       it { expect(ability).to be_able_to(:update, task) }
       it { expect(ability).to be_able_to(:destroy, task) }
+    end
+
+    context 'for comments' do
+      let!(:task) { create(:task, project: create(:project, user: user)) }
+      let!(:comment) { create(:comment, task: task) }
+
+      it { expect(ability).to be_able_to(:read, comment) }
+      it { expect(ability).to be_able_to(:create, Comment) }
+      it { expect(ability).to be_able_to(:update, comment) }
+      it { expect(ability).to be_able_to(:destroy, comment) }
     end
   end
 end
