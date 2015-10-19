@@ -23,5 +23,6 @@
 //= require angular-bootstrap-datetimepicker
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker
 //= require lodash
+//= require todo
 //= require_tree ./templates
 //= require_tree .

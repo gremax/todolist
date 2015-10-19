@@ -7,8 +7,11 @@ module Api
       respond_to :json
 
       def index
-        @projects = Project.order(:priority)
         render json: @projects, include: 'tasks'
+      end
+
+      def show
+        render json: @project
       end
 
       def create
@@ -26,7 +29,7 @@ module Api
       private
 
       def project_params
-        params.require(:project).permit(:title, :priority, :tasks)
+        params.permit(:title, :priority, :tasks)
       end
     end
   end

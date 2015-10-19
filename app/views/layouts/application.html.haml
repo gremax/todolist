@@ -6,7 +6,7 @@
     = stylesheet_link_tag    'application'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body{ng: {controller: "TodoController as todo"}}
+  %body
     - flash.each do |name, msg|
       - if msg.is_a?(String)
         %div{ class: "alert alert-#{name.to_s == 'notice' ? 'success' : 'danger'}" }
@@ -23,5 +23,5 @@
         Simple Todo Lists
         %br
         %small From Ruby Garage
-      = yield
+      %ui-view
     .copyright.text-center &copy; Ruby Garage

@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
 
   # respond_to :json
 
-  def index
+  def angular
+    render 'layouts/application' 
   end
 
   rescue_from CanCan::AccessDenied do |exception|

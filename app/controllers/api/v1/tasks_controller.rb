@@ -6,6 +6,10 @@ module Api
 
       respond_to :json
 
+      def index
+        render json: @tasks
+      end
+
       def create
         respond_with :api, :v1, @project, @project.tasks.create(task_params)
       end
@@ -21,7 +25,7 @@ module Api
       private
 
       def task_params
-        params.require(:task).permit(:title, :complete, :priority, :due_date)
+        params.permit(:title, :complete, :priority, :due_date)
       end
     end
   end
