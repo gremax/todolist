@@ -5,8 +5,11 @@
       "angular": "latest",
       "angular-ui-router": "latest",
       "angular-resource": "latest",
+      "angular-animate": "latest",
       "angular-ui-sortable": "latest",
       "angular-bootstrap-datetimepicker": "latest",
+      "angular-devise": "latest",
+      "angular-toastr": "latest",
       "lodash": "latest"
     }
   },

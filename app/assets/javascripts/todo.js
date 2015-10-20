@@ -1,30 +1,53 @@
 var todoApp = angular.module('todoApp', [
   'ngResource',
+  'ngAnimate',
   'templates',
+  'Devise',
+  'toastr',
   'ui.router',
   'ui.sortable',
   'ui.bootstrap.datetimepicker'
 ]);
 
 todoApp.config([
-  '$httpProvider',
-  function($httpProvider){
-    $httpProvider.defaults.headers.common['X-CSRF-Token'] =
-      $('meta[name=csrf-token]').attr('content');
-}]);
-
-todoApp.config([
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider){
     $stateProvider
-      .state('/',
+      .state('projects',
       {
-        url: '/',
+        url: '/projects',
         templateUrl: 'projects.html',
-        controller: 'ProjectController as projectCtrl'
+        controller: 'ProjectController as projectCtrl',
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+          if (!Auth.isAuthenticated()) {
+            $state.go('login');
+          }
+        }]
+      })
+      .state('login',
+      {
+        url: '/login',
+        templateUrl: '_login.html',
+        controller: 'AuthController',
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+          Auth.currentUser().then(function (){
+            $state.go('projects');
+          })
+        }]
+      })
+      .state('register',
+      {
+        url: '/register',
+        templateUrl: '_register.html',
+        controller: 'AuthController',
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+          Auth.currentUser().then(function (){
+            $state.go('projects');
+          })
+        }]
       });
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('login');
 }]);
 
 todoApp.factory('projectFactory', function($http) {
@@ -49,7 +72,7 @@ todoApp.factory('projectFactory', function($http) {
       return $http({
         method: 'POST',
         url: '/api/v1/projects',
-        params: { project: projectData }
+        params: projectData
       });
     },
 
@@ -193,4 +216,43 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory',
       $scope.updateTask(task);
       $scope.optionsTask = false;
     };
+}]);
+
+todoApp.controller('NavController', ['$scope', '$state', 'Auth', 'toastr',
+  function($scope, $state, Auth, toastr) {
+    $scope.signedIn = Auth.isAuthenticated;
+    $scope.logout = Auth.logout;
+
+    Auth.currentUser().then(function (user){
+      $scope.user = user;
+    });
+
+    $scope.$on('devise:new-registration', function (e, user){
+      $scope.user = user;
+      toastr.success('Welcome aboard!');
+    });
+
+    $scope.$on('devise:login', function (e, user){
+      $scope.user = user;
+      toastr.success('Signed in successfully.');
+    });
+
+    $scope.$on('devise:logout', function (e, user){
+      $scope.user = {};
+      $state.go('login');
+    });
+}]);
+
+todoApp.controller('AuthController', ['$scope', '$state', 'Auth', function($scope, $state, Auth) {
+  $scope.login = function() {
+    Auth.login($scope.user).then(function(){
+      $state.go('projects');
+    });
+  };
+
+  $scope.register = function() {
+    Auth.register($scope.user).then(function(){
+      $state.go('projects');
+    });
+  };
 }]);

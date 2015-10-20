@@ -1,0 +1,10 @@
+.collapse.navbar-collapse.pull-right{ng: {controller: 'NavController'}}
+  %ul.nav.navbar-nav
+    %li{ng: {hide: 'signedIn()'}}
+      %a{href: '#/login'} Log in
+    %li{ng: {hide: 'signedIn()'}}
+      %a{href: '#/register'} Register
+    %li{ng: {show: 'signedIn()'}}
+      %a{href: '#/'} {{user.email}}
+    %li{ng: {show: 'signedIn()'}}
+      %a{ng: {click: 'logout()'}} Log out

@@ -7,17 +7,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    - flash.each do |name, msg|
-      - if msg.is_a?(String)
-        %div{ class: "alert alert-#{name.to_s == 'notice' ? 'success' : 'danger'}" }
-          = content_tag :div, msg, id: "flash_#{name}"
-    .collapse.navbar-collapse.pull-right
-      %ul.nav.navbar-nav
-        - if user_signed_in?
-          %li= link_to 'Sign out', destroy_user_session_path, method: :delete
-        - else
-          %li= link_to 'Sign in', new_user_session_path
-          %li= link_to 'Sign up', new_user_registration_path
+    %div{ng: {include: "'_nav.html'"}}
     .row
       %h1
         Simple Todo Lists

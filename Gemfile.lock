@@ -41,6 +41,8 @@ GEM
       railties (>= 3.1)
       sprockets
       tilt
+    angular_csrf (0.1.4)
+      rails (>= 3.1)
     arel (6.0.3)
     autoprefixer-rails (6.0.1)
       execjs
@@ -290,6 +292,7 @@ PLATFORMS
 
 DEPENDENCIES
   angular-rails-templates
+  angular_csrf
   better_errors
   bootstrap-sass (~> 3.3.5)
   bower-rails

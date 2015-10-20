@@ -19,9 +19,12 @@
 //= require angular-rails-templates
 //= require angular-ui-router
 //= require angular-resource
+//= require angular-animate
 //= require angular-ui-sortable
 //= require angular-bootstrap-datetimepicker
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker
+//= require angular-devise
+//= require angular-toastr
 //= require lodash
 //= require todo
 //= require_tree ./templates

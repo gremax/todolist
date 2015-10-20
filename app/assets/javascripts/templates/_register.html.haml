@@ -1,9 +1,9 @@
 %h2 Register
 
-.col-md-8.col-md-offset-2
-  %form{ng: {submit: "register()"}}
+.col-md-4.col-md-offset-4
+  %form{ng: {submit: 'register()'}}
     .form-group
-      %input.form-control{type: "email", placeholder: "Email", ng: {model: "user.email"}}
+      %input.form-control{type: 'email', placeholder: 'Email', ng: {model: 'user.email'}}
     .form-group
-      %input.form-control{type: "password", placeholder: "Password", ng: {model: "user.password"}}
-    %input.btn.btn-primary{ttype: "submit", value: "Register"}
+      %input.form-control{type: 'password', placeholder: 'Password', ng: {model: 'user.password'}}
+    %input.btn.btn-primary{type: 'submit', value: 'Register'}
