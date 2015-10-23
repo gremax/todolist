@@ -2,52 +2,46 @@ var todoApp = angular.module('todoApp', [
   'ngResource',
   'ngAnimate',
   'templates',
-  'Devise',
   'toastr',
   'ui.router',
   'ui.sortable',
-  'ui.bootstrap.datetimepicker'
+  'ui.bootstrap.datetimepicker',
+  'ng-token-auth'
 ]);
 
 todoApp.config([
   '$stateProvider',
   '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider){
+  '$authProvider',
+  function($stateProvider, $urlRouterProvider, $authProvider){
     $stateProvider
       .state('projects',
       {
         url: '/projects',
         templateUrl: 'projects.html',
         controller: 'ProjectController as projectCtrl',
-        onEnter: ['$state', 'Auth', function($state, Auth) {
-          if (!Auth.isAuthenticated()) {
-            $state.go('login');
-          }
-        }]
+        resolve: {
+          auth: ['$auth', function($auth) {
+            return $auth.validateUser();
+          }]
+        }
       })
-      .state('login',
+      .state('signin',
       {
-        url: '/login',
-        templateUrl: '_login.html',
-        controller: 'AuthController',
-        onEnter: ['$state', 'Auth', function($state, Auth) {
-          Auth.currentUser().then(function (){
-            $state.go('projects');
-          })
-        }]
+        url: '/signin',
+        templateUrl: '_signin.html',
+        controller: 'SessionController',
       })
-      .state('register',
+      .state('signup',
       {
-        url: '/register',
-        templateUrl: '_register.html',
-        controller: 'AuthController',
-        onEnter: ['$state', 'Auth', function($state, Auth) {
-          Auth.currentUser().then(function (){
-            $state.go('projects');
-          })
-        }]
+        url: '/signup',
+        templateUrl: '_signup.html',
+        controller: 'RegistrationController',
       });
-    $urlRouterProvider.otherwise('login');
+    $urlRouterProvider.otherwise('signin');
+    $authProvider.configure({
+      apiUrl: ''
+    });
 }]);
 
 todoApp.factory('projectFactory', function($http) {
@@ -138,7 +132,7 @@ todoApp.controller('ProjectController', ['$scope', '$http', 'projectFactory',
       if(confirmation) {
         projectFactory.deleteProject(id).success(function() {
           $scope.getProjects();
-        });      
+        });
       }
     };
 
@@ -218,41 +212,43 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory',
     };
 }]);
 
-todoApp.controller('NavController', ['$scope', '$state', 'Auth', 'toastr',
-  function($scope, $state, Auth, toastr) {
-    $scope.signedIn = Auth.isAuthenticated;
-    $scope.logout = Auth.logout;
-
-    Auth.currentUser().then(function (user){
-      $scope.user = user;
+todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
+  function($scope, $state, $auth, toastr) {
+    $scope.$on('auth:login-error', function (ev, message){
+      toastr.error(message.errors[0]);
     });
 
-    $scope.$on('devise:new-registration', function (e, user){
-      $scope.user = user;
+    $scope.$on('auth:registration-email-success', function(ev, message) {
       toastr.success('Welcome aboard!');
     });
 
-    $scope.$on('devise:login', function (e, user){
-      $scope.user = user;
+    $scope.$on('auth:login-success', function(){
       toastr.success('Signed in successfully.');
+      $state.go('projects');
     });
 
-    $scope.$on('devise:logout', function (e, user){
-      $scope.user = {};
-      $state.go('login');
-    });
+    $scope.handleSignOutBtnClick = function() {
+      $auth.signOut()
+        .then(function(resp) {
+          toastr.success('Bye!');
+        });
+    };
 }]);
 
-todoApp.controller('AuthController', ['$scope', '$state', 'Auth', function($scope, $state, Auth) {
-  $scope.login = function() {
-    Auth.login($scope.user).then(function(){
-      $state.go('projects');
-    });
-  };
-
-  $scope.register = function() {
-    Auth.register($scope.user).then(function(){
-      $state.go('projects');
-    });
-  };
+todoApp.controller('RegistrationController', ['$scope', '$auth', 'toastr',
+  function ($scope, $auth, toastr) {
+    $scope.handleRegBtnClick = function() {
+      $auth.submitRegistration($scope.registrationForm)
+        .then(function() { 
+          $auth.submitLogin({
+            email: $scope.registrationForm.email,
+            password: $scope.registrationForm.password
+          });
+        })
+        .catch(function(response) {
+          angular.forEach(response.data.errors.full_messages, function(msg) {
+            toastr.error(msg);
+          })
+        })
+    };
 }]);

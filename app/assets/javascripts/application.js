@@ -23,7 +23,8 @@
 //= require angular-ui-sortable
 //= require angular-bootstrap-datetimepicker
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker
-//= require angular-devise
+//= require ng-token-auth
+//= require angular-cookie
 //= require angular-toastr
 //= require lodash
 //= require todo

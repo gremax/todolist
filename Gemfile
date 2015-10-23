@@ -15,6 +15,7 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem 'bower-rails'
 gem 'angular-rails-templates'
 gem 'angular_csrf'
+gem 'devise_token_auth'
 gem 'cancancan',    '~> 1.10'
 gem 'sprockets',    '2.12.3'
 

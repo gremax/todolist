@@ -1,10 +1,10 @@
-.collapse.navbar-collapse.pull-right{ng: {controller: 'NavController'}}
+.collapse.navbar-collapse.pull-right{ng: {controller: 'SessionController'}}
   %ul.nav.navbar-nav
-    %li{ng: {hide: 'signedIn()'}}
-      %a{href: '#/login'} Log in
-    %li{ng: {hide: 'signedIn()'}}
-      %a{href: '#/register'} Register
-    %li{ng: {show: 'signedIn()'}}
-      %a{href: '#/'} {{user.email}}
-    %li{ng: {show: 'signedIn()'}}
-      %a{ng: {click: 'logout()'}} Log out
+    %li{ng: {hide: 'user.id'}}
+      %a{href: '#/signin'} Sign in
+    %li{ng: {hide: 'user.id'}}
+      %a{href: '#/signup'} Sign up
+    %li{ng: {show: 'user.id'}}
+      %a{href: '#/projects'} {{user.email}}
+    %li{ng: {show: 'user.id'}}
+      %a{href: '', ng: {click: 'handleSignOutBtnClick()'}} Sign out

@@ -24,7 +24,9 @@
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'updateTask(task)'}}
             %td.task-title
               %div
-                %span.view{ng: {dblclick: 'taskEdit()'}} {{task.title}} {{(task.due_date|date:'yyyy-MM-dd')}}
+                %span.view{ng: {dblclick: 'taskEdit()'}}
+                  {{task.title}}
+                  %sup {{(task.due_date|date:'yyyy-MM-dd')}}
                 %input.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
             %td.options-task
               %div.dropdown{ng: {show: 'optionsTask'}}

@@ -8,7 +8,7 @@
       "angular-animate": "latest",
       "angular-ui-sortable": "latest",
       "angular-bootstrap-datetimepicker": "latest",
-      "angular-devise": "latest",
+      "ng-token-auth": "latest",
       "angular-toastr": "latest",
       "lodash": "latest"
     }

@@ -5,7 +5,7 @@ feature 'User removes a task' do
 
   background do
     sign_in(user)
-    sleep 0.1
+    sleep 0.5
   end
 
   scenario 'Remove a task', js: true do

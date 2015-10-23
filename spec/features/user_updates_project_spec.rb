@@ -4,7 +4,6 @@ feature 'User updates a project' do
 
   background do
     sign_in(user)
-    visit root_path
     sleep 0.5
   end
 
