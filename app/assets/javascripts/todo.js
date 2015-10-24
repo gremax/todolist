@@ -21,8 +21,11 @@ todoApp.config([
         templateUrl: 'projects.html',
         controller: 'ProjectController as projectCtrl',
         resolve: {
-          auth: ['$auth', function($auth) {
-            return $auth.validateUser();
+          auth: ['$auth', '$state', function($auth, $state) {
+            return $auth.validateUser()
+              .catch(function(response) {
+                $state.go('signin');
+              })
           }]
         }
       })
@@ -30,7 +33,7 @@ todoApp.config([
       {
         url: '/signin',
         templateUrl: '_signin.html',
-        controller: 'SessionController',
+        controller: 'SessionController'
       })
       .state('signup',
       {
@@ -41,6 +44,13 @@ todoApp.config([
     $urlRouterProvider.otherwise('signin');
     $authProvider.configure({
       apiUrl: ''
+    });
+}]);
+
+todoApp.run(['$auth', '$state', function($auth, $state) {
+  $auth.validateUser()
+    .then(function(response) {
+      $state.go('projects');
     });
 }]);
 
@@ -218,10 +228,6 @@ todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
       toastr.error(message.errors[0]);
     });
 
-    $scope.$on('auth:registration-email-success', function(ev, message) {
-      toastr.success('Welcome aboard!');
-    });
-
     $scope.$on('auth:login-success', function(){
       toastr.success('Signed in successfully.');
       $state.go('projects');
@@ -230,6 +236,7 @@ todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
     $scope.handleSignOutBtnClick = function() {
       $auth.signOut()
         .then(function(resp) {
+          $state.go('signin');
           toastr.success('Bye!');
         });
     };
@@ -237,6 +244,14 @@ todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
 
 todoApp.controller('RegistrationController', ['$scope', '$auth', 'toastr',
   function ($scope, $auth, toastr) {
+    $scope.$on('auth:registration-email-success', function(ev, message) {
+      toastr.success('Welcome aboard!');
+    });
+
+    $scope.$on('auth:oauth-registration', function(ev, message) {
+      toastr.success('Welcome aboard!');
+    });
+
     $scope.handleRegBtnClick = function() {
       $auth.submitRegistration($scope.registrationForm)
         .then(function() { 

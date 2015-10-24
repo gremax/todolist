@@ -10,12 +10,12 @@ gem 'jquery-rails'
 gem 'jbuilder',     '~> 2.0'
 gem 'sdoc',         '~> 0.4.0', group: :doc
 gem 'haml-rails'
-gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'bower-rails'
 gem 'angular-rails-templates'
 gem 'angular_csrf'
 gem 'devise_token_auth'
+gem 'omniauth-facebook'
 gem 'cancancan',    '~> 1.10'
 gem 'sprockets',    '2.12.3'
 
@@ -25,6 +25,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
+  gem 'dotenv-rails'
 end
 
 group :development do

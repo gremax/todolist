@@ -39,4 +39,5 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  OmniAuth.config.full_host = 'http://todolist.192.168.1.150.xip.io/'
 end
