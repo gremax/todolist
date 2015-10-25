@@ -12,14 +12,14 @@
           %span.glyphicon.glyphicon-move
           %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}', ng: {click: 'deleteProject(project.id)'}}
       .new-task{ng: {class: "{'empty-project':project.tasks.length == 0}"}}
-        %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'taskForm.$valid && submitTask(project.id)'}, novalidate: true}
+        %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'submitTask(project.id)'}, novalidate: true}
           .input-group.input-group-sm
             %input.form-control{id: 'new-task', type: 'text', placeholder: 'Start typing here to create a task...', ng: {model: 'taskData.title'}, required: true}
             .input-group-btn
               %button.btn.btn-success Add task
       %table.table{ng: {controller: 'TaskController as taskCtrl'}}
-        %tbody
-          %tr{id: 'task-{{task.id}}', ng: {repeat: "task in project.tasks | orderBy: ['complete', '-id']", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false'}}
+        %tbody{ui: {sortable: 'sortableOptions'}, ng: {model: 'project.tasks'}}
+          %tr{id: 'task-{{task.id}}', ng: {repeat: "task in project.tasks | orderBy: 'complete'", mouseover: 'optionsTask = true', mouseleave: 'optionsTask = false', class: "{'not-sortable':task.complete}"}}
             %td.complete
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'updateTask(task)'}}
             %td.task-title

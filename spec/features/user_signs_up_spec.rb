@@ -2,6 +2,7 @@ feature 'User signs up' do
 
   background do
     visit '/#/signup'
+    sleep 0.2
   end
 
   scenario 'User signs up with valid attributes', js: true do
@@ -15,12 +16,12 @@ feature 'User signs up' do
   end
 
   scenario 'User signs up with invalid attributes', js: true do
-    fill_in 'user_email',    with: ''
+    fill_in 'user_email',    with: 'test@test'
     fill_in 'user_password', with: ''
     fill_in 'user_password_confirmation', with: ''
     click_button 'Sign up'
 
     expect(page).
-      to have_content 'can\'t be blank'
+      to have_content 'Email is not an email'
   end
 end

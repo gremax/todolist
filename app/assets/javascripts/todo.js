@@ -13,7 +13,7 @@ todoApp.config([
   '$stateProvider',
   '$urlRouterProvider',
   '$authProvider',
-  function($stateProvider, $urlRouterProvider, $authProvider){
+  function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('projects',
       {
@@ -46,6 +46,13 @@ todoApp.config([
       apiUrl: ''
     });
 }]);
+
+todoApp.config(function(toastrConfig) {
+  angular.extend(toastrConfig, {
+    positionClass: 'toast-top-left',
+    preventOpenDuplicates: true
+  });
+});
 
 todoApp.run(['$auth', '$state', function($auth, $state) {
   $auth.validateUser()
@@ -120,8 +127,8 @@ todoApp.factory('projectFactory', function($http) {
   };
 });
 
-todoApp.controller('ProjectController', ['$scope', '$http', 'projectFactory',
-  function($scope, $http, projectFactory) {
+todoApp.controller('ProjectController', ['$scope', '$http', 'projectFactory', 'toastr',
+  function($scope, $http, projectFactory, toastr) {
     $scope.projectData = {};
 
     $scope.getProjects = function() {
@@ -146,25 +153,28 @@ todoApp.controller('ProjectController', ['$scope', '$http', 'projectFactory',
       }
     };
 
-    $scope.projectEdit = function(){
+    $scope.projectEdit = function() {
       $(event.target).closest('div').toggleClass('editing');
     };
 
-    $scope.editProjectOnEnter = function(project){
-      if(event.keyCode == 13 && project.title){
+    $scope.editProjectOnEnter = function(project) {
+      if(!project.title) {
+        toastr.error('Project name can\'t be blank.');
+      };
+      if(event.keyCode == 13 && project.title) {
         projectFactory.updateProject(project);
         $scope.projectEdit();
       }
     };
 
-    $scope.toggleProjectEdit = function(){
+    $scope.toggleProjectEdit = function() {
       $(event.target).parent('div').siblings().toggleClass('editing');
     };
 
     $scope.sortableOptions = {
       stop: function(e, ui) {
         _.map($scope.projects, function(project, index) {
-          projectFactory.updateProject({id: project.id, priority: index}) 
+          projectFactory.updateProject({id: project.id, priority: index})
         })
       },
       axis: 'y'
@@ -173,15 +183,18 @@ todoApp.controller('ProjectController', ['$scope', '$http', 'projectFactory',
     $scope.getProjects();
 }]);
 
-todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory',
-  function($scope, $http, projectFactory) {
+todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toastr',
+  function($scope, $http, projectFactory, toastr) {
     $scope.submitTask = function(projectId) {
       projectFactory.setProjectId(projectId);
       projectFactory.submitTask($scope.taskData).success(function() {
         $scope.taskData = {};
         projectFactory.getProjectTasks(projectId).success(function(data) {
           $scope.project.tasks = data;
-        }); 
+        });
+      })
+      .catch(function(response) {
+        toastr.error('Task can\'t be blank.');
       });
     };
 
@@ -200,37 +213,51 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory',
       };
     };
 
-    $scope.taskEdit = function(){
+    $scope.taskEdit = function() {
       $(event.target).closest('div').toggleClass('editing');
     };
 
-    $scope.editTaskOnEnter = function(task){
-      if(event.keyCode == 13 && task.title){
+    $scope.editTaskOnEnter = function(task) {
+      if(!task.title) {
+        toastr.error('Task title can\'t be blank.');
+      };
+      if(event.keyCode == 13 && task.title) {
         $scope.updateTask(task);
         $scope.taskEdit();
-      }
+      };
     };
 
-    $scope.toggleTaskEdit = function(){
+    $scope.toggleTaskEdit = function() {
       $(event.target).closest('tr').find('td.task-title div').
         toggleClass('editing');
     };
 
-    $scope.setDue = function(task){
+    $scope.setDue = function(task) {
       $scope.updateTask(task);
       $scope.optionsTask = false;
     };
+
+    $scope.sortableOptions = {
+      stop: function(e, ui) {
+        _.map($scope.project.tasks, function(task, index) {
+          projectFactory.updateTask({project_id: task.project_id, id: task.id, priority: index}) 
+        })
+      },
+      items: 'tr:not(.not-sortable)',
+      axis: 'y'
+    };
+
 }]);
 
 todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
   function($scope, $state, $auth, toastr) {
-    $scope.$on('auth:login-error', function (ev, message){
+    $scope.$on('auth:login-error', function (ev, message) {
       toastr.error(message.errors[0]);
     });
 
-    $scope.$on('auth:login-success', function(){
-      toastr.success('Signed in successfully.');
+    $scope.$on('auth:login-success', function() {
       $state.go('projects');
+      toastr.success('Signed in successfully.');
     });
 
     $scope.handleSignOutBtnClick = function() {
@@ -249,7 +276,7 @@ todoApp.controller('RegistrationController', ['$scope', '$auth', 'toastr',
     });
 
     $scope.$on('auth:oauth-registration', function(ev, message) {
-      toastr.success('Welcome aboard!');
+      toastr.success('Successfully authenticated from Facebook account.');
     });
 
     $scope.handleRegBtnClick = function() {
@@ -261,6 +288,7 @@ todoApp.controller('RegistrationController', ['$scope', '$auth', 'toastr',
           });
         })
         .catch(function(response) {
+          console.log(response);
           angular.forEach(response.data.errors.full_messages, function(msg) {
             toastr.error(msg);
           })

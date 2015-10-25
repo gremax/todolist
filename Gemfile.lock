@@ -329,6 +329,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   database_cleaner
+  devise
   devise_token_auth
   dotenv-rails
   factory_girl_rails

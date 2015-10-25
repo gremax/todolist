@@ -3,13 +3,12 @@ feature 'User signs out' do
 
   background do
     sign_in(user)
-    sleep 2
   end
 
-  scenario 'Registered user tries to sign out' do
+  scenario 'Registered user tries to sign out', js: true do
     click_on 'Sign out'
 
-    expect(page).to have_content 'Bye'
-    expect(current_path).to eq '/#/signin'
+    expect(page).to have_content 'Sign in'
+    expect(page).to_not have_content 'Sign out'
   end
 end
