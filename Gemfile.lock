@@ -339,6 +339,7 @@ DEPENDENCIES
   devise
   devise_token_auth
   dotenv-rails
+  execjs
   factory_girl_rails
   faker
   guard-rspec
