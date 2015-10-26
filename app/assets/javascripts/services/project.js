@@ -1,4 +1,4 @@
-todoApp.factory('projectFactory', function($http) {
+todoApp.factory('projectFactory', ['$http', function($http) {
   return {
     projectId: null,
     taskId: null,
@@ -92,4 +92,4 @@ todoApp.factory('projectFactory', function($http) {
         '/comments/' + commentData.id);
     }
   };
-});
+}]);
