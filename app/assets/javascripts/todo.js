@@ -13,8 +13,7 @@ todoApp.config([
   '$stateProvider',
   '$urlRouterProvider',
   '$authProvider',
-  '$state',
-  function($stateProvider, $urlRouterProvider, $authProvider, $state) {
+  function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('projects',
       {
