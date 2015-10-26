@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby '2.2.2'
 
 gem 'rails',        '4.2.4'
 gem 'pg',           '0.18.3'
@@ -45,5 +45,9 @@ group :test do
   gem 'launchy'
   gem 'codeclimate-test-reporter'
   gem 'poltergeist'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
 
