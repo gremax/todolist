@@ -28,9 +28,21 @@
                   {{task.title}}
                   %sup {{(task.due_date|date:'yyyy-MM-dd')}}
                 %input.form-control.input-sm.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
+              %ul.list-group.comments{ng: {controller: 'CommentController as CommentCtrl'}}
+                %li.list-group-item{id: "comment-{{comment.id}}", ng: {repeat: 'comment in task.comments', mouseover: 'optionsComment = true', mouseleave: 'optionsComment = false'}}
+                  {{comment.body}}
+                  .pull-right{ng: {show: 'optionsComment'}}
+                    %span.delete{id: "del-comment-{{comment.id}}", ng: {click: 'deleteComment(comment)'}} &times;
+                %li.list-group-item
+                  %form{name: 'commentForm', ng: {submit: 'submitComment(task)'}, novalidate: true}
+                    .input-group.input-group-sm
+                      %input.form-control.input-sm{id: 'new-comment', type: 'text', placeholder: 'Start type new comment...', ng: {model: 'commentData.body'}, required: true}
+                        .input-group-btn
+                          %button.btn.btn-success Add comment
             %td.options-task
               %div.dropdown{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'toggleTaskEdit()'}}
+                %span.glyphicon.glyphicon-comment{id: 'comment-task-{{task.id}}', ng: {click: 'toggleComments()'}}
                 %span.glyphicon.glyphicon-time.dropdown-toggle{id: 'due-task-{{task.id}}', 'data-toggle': 'dropdown'}
                 %span.glyphicon.glyphicon-move
                 %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'deleteTask(task)'}}

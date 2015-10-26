@@ -51,7 +51,7 @@ h2 {
 
 .options-task {
   color: #999;
-  width: 100px;
+  width: 130px;
   text-align: right;
   font-size: 13px;
   .glyphicon {
@@ -148,4 +148,16 @@ form .task-input {
 
 sup {
   font-weight: bold;
+}
+
+.comments {
+  display: none;
+  .delete {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.comments-on {
+  display: inline;
 }

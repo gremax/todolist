@@ -1,11 +1,5 @@
 todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toastr',
   function($scope, $http, projectFactory, toastr) {
-    // $scope.getComments = function() {
-    //   projectFactory.getProjectTasks($scope.project.id).success(function(data) {
-    //     $scope.comments = data[0].comments;
-    //   });
-    // };
-
     $scope.submitTask = function(projectId) {
       projectFactory.setProjectId(projectId);
       projectFactory.submitTask($scope.taskData).success(function() {
@@ -53,6 +47,11 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toas
         toggleClass('editing');
     };
 
+    $scope.toggleComments = function() {
+      $(event.target).closest('tr').find('td.task-title ul.comments').
+        toggleClass('comments-on');
+    };
+
     $scope.setDue = function(task) {
       $scope.updateTask(task);
       $scope.optionsTask = false;
@@ -73,6 +72,4 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toas
       items: 'tr:not(.not-sortable)',
       axis: 'y'
     };
-
-    // $scope.getComments();
 }]);

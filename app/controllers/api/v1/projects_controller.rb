@@ -4,7 +4,7 @@ module Api
       load_and_authorize_resource
 
       def index
-        render json: @projects, include: 'tasks'
+        render json: @projects, include: { tasks: { include: 'comments'} }
       end
 
       def show

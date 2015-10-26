@@ -1,6 +1,7 @@
 todoApp.factory('projectFactory', function($http) {
   return {
     projectId: null,
+    taskId: null,
 
     getProjects: function() {
       return $http.get('/api/v1/projects');
@@ -38,6 +39,17 @@ todoApp.factory('projectFactory', function($http) {
       return $http.delete('/api/v1/projects/' + id);
     },
 
+    setTaskId: function(id) {
+      this.taskId = id;
+    },
+
+    getTaskComments: function() {
+      var projectId = this.projectId;
+      var taskId = this.taskId;
+      return $http.get('/api/v1/projects/' + projectId + '/tasks/' + taskId +
+        '/comments');
+    },
+
     submitTask: function(taskData) {
       console.log(taskData);
       var projectId = this.projectId;
@@ -60,6 +72,24 @@ todoApp.factory('projectFactory', function($http) {
     deleteTask: function(taskData) {
       return $http.delete('/api/v1/projects/' + taskData.project_id
         + '/tasks/' + taskData.id);
+    },
+
+    submitComment: function(commentData) {
+      console.log(commentData);
+      var projectId = this.projectId;
+      var taskId = this.taskId;
+      return $http({
+        method: 'POST',
+        url: '/api/v1/projects/' + projectId + '/tasks/' + taskId + '/comments',
+        params: commentData
+      });
+    },
+
+    deleteComment: function(commentData) {
+      var projectId = this.projectId;
+      var taskId = this.taskId;
+      return $http.delete('/api/v1/projects/' + projectId + '/tasks/' + taskId +
+        '/comments/' + commentData.id);
     }
   };
 });

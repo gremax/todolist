@@ -4,8 +4,6 @@ module Api
       load_and_authorize_resource :project
       load_and_authorize_resource :task, through: :project
 
-      respond_to :json
-
       def index
         render json: @tasks
       end

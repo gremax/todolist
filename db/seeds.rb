@@ -22,4 +22,10 @@ Task.create!([
   { title: "PostgreSQL", project_id: third.id }
 ])
 
+Comment.create!([
+  { body: "First comment", task: Task.first },
+  { body: "Second comment", task: Task.first },
+  { body: "Third comment", task: Task.first }
+])
+
 puts "Added #{Project.count} projects with #{Task.count} tasks for #{user.email}"

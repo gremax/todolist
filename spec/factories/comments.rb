@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :comment do
     task
-    body "MyText"
+    body "My cool comment"
   end
 
 end

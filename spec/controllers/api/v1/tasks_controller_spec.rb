@@ -21,7 +21,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
       expect(response).to be_success
     end
 
-    it 'assigns all tasks as @projects' do
+    it 'assigns all tasks as @tasks' do
       get :index, format: :json, project_id: project
       expect(assigns(:tasks)).to match_array tasks
     end
@@ -96,7 +96,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:task) { create(:task, project: project) } 
+    let!(:task) { create(:task, project: project) }
 
     context 'cancan authorizes destroy' do
       before do
