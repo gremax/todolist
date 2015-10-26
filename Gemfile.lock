@@ -342,7 +342,7 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   jbuilder (~> 2.0)
-  jquery-rails
+  jquery-rails (~> 4.0.5)
   launchy
   omniauth-facebook
   pg (= 0.18.3)
