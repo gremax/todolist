@@ -28,5 +28,7 @@
 //= require angular-toastr
 //= require lodash
 //= require todo
+//= require_tree ./services
+//= require_tree ./controllers
 //= require_tree ./templates
 //= require_tree .

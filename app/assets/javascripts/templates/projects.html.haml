@@ -1,16 +1,16 @@
 .col-md-6.col-md-offset-3
-  .div{ui: {sortable: 'sortableOptions'}, ng: {model: 'projects'}}
+  %div{ui: {sortable: 'sortableOptions'}, ng: {model: 'projects'}}
     .panel.panel-primary{ng: {repeat: 'project in projects'}}
       .panel-heading{id: 'project-{{project.id}}', ng: {mouseover: 'optionsProject = true', mouseleave: 'optionsProject = false'}}
-        .panel-title.pull-left
+        .panel-title
           %span.glyphicon.glyphicon-calendar
           %span.view{ng: {dblclick: 'projectEdit()'}}
             {{project.title}}
-          %input.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'editProjectOnEnter(project)'}}
-        .pull-right.project-options{ng: {show: 'optionsProject'}}
-          %span.glyphicon.glyphicon-pencil{id: 'edit-project-{{project.id}}', ng: {click: 'toggleProjectEdit()'}}
-          %span.glyphicon.glyphicon-move
-          %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}', ng: {click: 'deleteProject(project.id)'}}
+          %input.form-control.input-sm.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'editProjectOnEnter(project)'}}
+          .pull-right.project-options{ng: {show: 'optionsProject'}}
+            %span.glyphicon.glyphicon-pencil{id: 'edit-project-{{project.id}}', ng: {click: 'toggleProjectEdit()'}}
+            %span.glyphicon.glyphicon-move
+            %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}', ng: {click: 'deleteProject(project.id)'}}
       .new-task{ng: {class: "{'empty-project':project.tasks.length == 0}"}}
         %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'submitTask(project.id)'}, novalidate: true}
           .input-group.input-group-sm
@@ -23,11 +23,11 @@
             %td.complete
               %input{type: 'checkbox', ng: {model: 'task.complete', click: 'updateTask(task)'}}
             %td.task-title
-              %div
+              .input-group-sm
                 %span.view{ng: {dblclick: 'taskEdit()'}}
                   {{task.title}}
                   %sup {{(task.due_date|date:'yyyy-MM-dd')}}
-                %input.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
+                %input.form-control.input-sm.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
             %td.options-task
               %div.dropdown{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'toggleTaskEdit()'}}
@@ -36,13 +36,4 @@
                 %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'deleteTask(task)'}}
                 %ul.dropdown-menu
                   %datetimepicker{ng: {model: 'task.due_date'}, 'on-set-time': 'setDue(task)', datetimepicker: {config: "{ dropdownSelector: '#due-task-{{task.id}}', minView: 'day' }"}}
-  .text-center
-    %button.btn.btn-lg.btn-primary#new-project{ng: {click: 'isVisible = true', hide: 'isVisible'}}
-      %span.glyphicon.glyphicon-plus
-      Add TODO List
-  %form{name: 'projectForm', ng: {submit: 'projectForm.$valid && submitProject()'}}
-    .input-group{ng: {show: 'isVisible'}}
-      %input.form-control{type: 'text', placeholder: 'Add a new project', ng: {model: 'projectData.title'}, required: true}
-      .input-group-btn
-        %button.btn.btn-primary{ng: {click: 'isVisible = false', disabled: 'projectForm.$invalid'}} Add project
-
+  %add-project

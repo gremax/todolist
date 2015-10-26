@@ -1,0 +1,9 @@
+.text-center
+  %button.btn.btn-lg.btn-primary#new-project{ng: {click: 'isVisible = true', hide: 'isVisible'}}
+    %span.glyphicon.glyphicon-plus
+    Add TODO List
+%form{name: 'projectForm', ng: {submit: 'projectForm.$valid && submitProject()'}}
+  .input-group{ng: {show: 'isVisible'}}
+    %input.form-control{type: 'text', placeholder: 'Add a new project', ng: {model: 'projectData.title'}, required: true}
+    .input-group-btn
+      %button.btn.btn-primary{ng: {click: 'isVisible = false', disabled: 'projectForm.$invalid'}} Add project
