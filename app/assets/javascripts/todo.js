@@ -47,12 +47,12 @@ todoApp.config([
     });
 }]);
 
-todoApp.config(function(toastrConfig) {
+todoApp.config(['toastrConfig', function(toastrConfig) {
   angular.extend(toastrConfig, {
     positionClass: 'toast-top-left',
     preventOpenDuplicates: true
   });
-});
+}]);
 
 todoApp.run(['$auth', '$state', function($auth, $state) {
   $auth.validateUser()

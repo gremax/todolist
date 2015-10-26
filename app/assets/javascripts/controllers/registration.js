@@ -1,5 +1,5 @@
 todoApp.controller('RegistrationController', ['$scope', '$auth', 'toastr',
-  function ($scope, $auth, toastr) {
+  function($scope, $auth, toastr) {
     $scope.$on('auth:registration-email-success', function(ev, message) {
       toastr.success('Welcome aboard!');
     });
