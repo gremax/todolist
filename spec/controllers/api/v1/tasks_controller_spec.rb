@@ -1,23 +1,39 @@
 RSpec.describe Api::V1::TasksController, type: :controller do
   sign_in_user
-
-  before(:each) do
-    @ability = Object.new
-    @ability.extend(CanCan::Ability)
-    allow(@controller).to receive(:current_ability).and_return(@ability)
-    @ability.can :manage, :all
-  end
+  add_ability
 
   let!(:project) { create(:project, user: @user) }
 
+  describe 'GET #index' do
+    let!(:tasks) { create_list(:task, 3, project: project) }
+
+    context 'cancan authorizes index' do
+      before do
+        @ability.cannot :read, Task
+        get :index, project_id: project
+      end
+
+      it { expect(response).to be_forbidden }
+    end
+
+    it 'should return successful response' do
+      get :index, format: :json, project_id: project
+      expect(response).to be_success
+    end
+
+    it 'assigns all tasks as @projects' do
+      get :index, format: :json, project_id: project
+      expect(assigns(:tasks)).to match_array tasks
+    end
+  end
+
   describe 'POST #create' do
     let(:task) { attributes_for(:task, project: project) }
-    let(:task_invalid) { attributes_for(:task_invalid, project: project) }
 
     context 'cancan authorizes create' do
       before do
         @ability.cannot :create, Task
-        post :create, format: :json, project_id: project, task: task
+        post :create, format: :json, project_id: project, title: task[:title]
       end
 
       it { expect(response).to be_forbidden }
@@ -25,19 +41,19 @@ RSpec.describe Api::V1::TasksController, type: :controller do
 
     describe 'with valid attributes' do
       it 'creates a task' do
-        expect { post :create, format: :json, project_id: project, task: task }.
-          to change(Task, :count).by(1)
+        expect { post :create, format: :json, project_id: project,
+          title: task[:title] }.to change(Task, :count).by(1)
       end
     end
 
     describe 'with invalid attributes' do
       it 'doesnt create a task' do
-        expect { post :create, format: :json, project_id: project, task: task_invalid }.
-          to_not change(Task, :count)
+        expect { post :create, format: :json, project_id: project,
+          title: '' }.to_not change(Task, :count)
       end
 
       it 'returns an error 422' do
-        post :create, format: :json, project_id: project, task: task_invalid
+        post :create, format: :json, project_id: project, title: ''
         expect(response.status).to eq 422
       end
     end
@@ -60,12 +76,12 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     describe 'with valid attributes' do
       it 'doesnt change a tasks count' do
         expect { patch :update, format: :json, project_id: project, id: task,
-          task: task_update }.to_not change(Task, :count)
+          title: task_update[:title] }.to_not change(Task, :count)
       end
 
       it 'updates a task' do
         patch :update, format: :json, project_id: project, id: task,
-          task: task_update
+          title: task_update[:title]
         expect(task.reload.title).to eq task_update[:title]
       end
     end
