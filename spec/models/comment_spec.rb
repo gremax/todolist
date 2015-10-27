@@ -6,5 +6,6 @@ RSpec.describe Comment, type: :model do
 
   describe 'associations' do
     it { should belong_to :task }
+    it { should have_many(:attachments).dependent(:destroy) }
   end
 end
