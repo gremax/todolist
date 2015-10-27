@@ -41,7 +41,7 @@
                   %form{name: 'commentForm', ng: {submit: 'submitComment(task)'}, novalidate: true}
                     %textarea.form-control.input-sm{id: 'new-comment', type: 'text', placeholder: 'Start type new comment...', ng: {model: 'commentData.body'}, required: true}
                     %button.pull-right.btn.btn-sm.btn-success Add comment
-                    %div.btn.btn-sm.btn-primary{ngf: {select: true, multiple: 'true'}, ng: {model: 'files'}}
+                    %button.btn.btn-sm.btn-primary{ngf: {select: true, multiple: 'true'}, ng: {model: 'files'}}
                       Attach files
                     %div.new-attachments
                       %p{ng: {repeat: 'file in files'}}

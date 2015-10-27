@@ -21,6 +21,7 @@ gem 'cancancan',    '~> 1.10'
 gem 'sprockets',    '2.12.3'
 gem 'active_model_serializers'
 gem 'carrierwave'
+gem 'cloudinary'
 
 group :development, :test do
   gem 'byebug'
