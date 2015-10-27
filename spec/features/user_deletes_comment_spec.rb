@@ -8,7 +8,7 @@ feature 'User removes comment' do
     sign_in(user)
   end
 
-  scenario 'Authorized user removes a comment', js: true do
+  xscenario 'Authorized user removes a comment', js: true do
     find("#task-#{task.id}").hover
     find("#comment-task-#{task.id}").click
     expect(page).to have_content comment.body

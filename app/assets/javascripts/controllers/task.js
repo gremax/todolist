@@ -21,7 +21,7 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toas
       var confirmation = confirm('Are you sure?');
       if (confirmation) {
         projectFactory.deleteTask(taskData).success(function() {
-          projectFactory.getProjectTasks().success(function(data) {
+          projectFactory.getProjectTasks(taskData.project_id).success(function(data) {
             $scope.project.tasks = data;
           });
         });

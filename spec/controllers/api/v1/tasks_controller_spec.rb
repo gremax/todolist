@@ -48,8 +48,8 @@ RSpec.describe Api::V1::TasksController, type: :controller do
 
     describe 'with invalid attributes' do
       it 'doesnt create a task' do
-        expect { post :create, format: :json, project_id: project,
-          title: '' }.to_not change(Task, :count)
+        expect { post :create, format: :json, project_id: project, title: '' }.
+          to_not change(Task, :count)
       end
 
       it 'returns an error 422' do
@@ -66,8 +66,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     context 'cancan authorizes update' do
       before do
         @ability.cannot :update, Task
-        patch :update, format: :json, project_id: project, id: task,
-          task: task_update
+        patch :update, format: :json, id: task, task: task_update
       end
 
       it { expect(response).to be_forbidden }
@@ -75,21 +74,19 @@ RSpec.describe Api::V1::TasksController, type: :controller do
 
     describe 'with valid attributes' do
       it 'doesnt change a tasks count' do
-        expect { patch :update, format: :json, project_id: project, id: task,
+        expect { patch :update, format: :json, id: task,
           title: task_update[:title] }.to_not change(Task, :count)
       end
 
       it 'updates a task' do
-        patch :update, format: :json, project_id: project, id: task,
-          title: task_update[:title]
+        patch :update, format: :json, id: task, title: task_update[:title]
         expect(task.reload.title).to eq task_update[:title]
       end
     end
 
     describe 'with invalid attributes' do
       it 'doesnt update a task' do
-        patch :update, format: :json, project_id: project, id: task,
-          task: { title: ''}
+        patch :update, format: :json, id: task, task: { title: ''}
         expect(task.reload.title).not_to be_empty
       end
     end
@@ -101,14 +98,14 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     context 'cancan authorizes destroy' do
       before do
         @ability.cannot :destroy, Task
-        delete :destroy, format: :json, project_id: project, id: task
+        delete :destroy, format: :json, id: task
       end
 
       it { expect(response).to be_forbidden }
     end
 
     it 'deletes a task' do
-      expect{ delete :destroy, format: :json, project_id: project, id: task }.
+      expect{ delete :destroy, format: :json, id: task }.
         to change(Task, :count).by(-1)
     end
   end

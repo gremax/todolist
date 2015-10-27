@@ -30,7 +30,8 @@ todoApp.factory('projectFactory', ['$http', function($http) {
       return $http({
         method: 'PUT',
         url: '/api/v1/projects/' + projectData.id,
-        params: { id: projectData.id, title: projectData.title, priority: projectData.priority }
+        params: { id: projectData.id, title: projectData.title,
+          priority: projectData.priority }
       });
     },
 
@@ -44,10 +45,8 @@ todoApp.factory('projectFactory', ['$http', function($http) {
     },
 
     getTaskComments: function() {
-      var projectId = this.projectId;
       var taskId = this.taskId;
-      return $http.get('/api/v1/projects/' + projectId + '/tasks/' + taskId +
-        '/comments');
+      return $http.get('/api/v1/tasks/' + taskId + '/comments');
     },
 
     submitTask: function(taskData) {
@@ -64,32 +63,27 @@ todoApp.factory('projectFactory', ['$http', function($http) {
       console.log(taskData);
       return $http({
         method: 'PUT',
-        url: '/api/v1/projects/' + taskData.project_id + '/tasks/' + taskData.id,
+        url: '/api/v1/tasks/' + taskData.id,
         params: taskData
       });
     },
 
     deleteTask: function(taskData) {
-      return $http.delete('/api/v1/projects/' + taskData.project_id
-        + '/tasks/' + taskData.id);
+      return $http.delete('/api/v1/tasks/' + taskData.id);
     },
 
     submitComment: function(commentData) {
       console.log(commentData);
-      var projectId = this.projectId;
       var taskId = this.taskId;
       return $http({
         method: 'POST',
-        url: '/api/v1/projects/' + projectId + '/tasks/' + taskId + '/comments',
+        url: '/api/v1/tasks/' + taskId + '/comments',
         params: commentData
       });
     },
 
     deleteComment: function(commentData) {
-      var projectId = this.projectId;
-      var taskId = this.taskId;
-      return $http.delete('/api/v1/projects/' + projectId + '/tasks/' + taskId +
-        '/comments/' + commentData.id);
+      return $http.delete('/api/v1/comments/' + commentData.id);
     }
   };
 }]);

@@ -2,15 +2,14 @@ module Api
   module V1
     class CommentsController < ApplicationController
       load_and_authorize_resource :task
-      load_and_authorize_resource :comment, through: :task
+      load_and_authorize_resource :comment, through: :task, shallow: true
 
       def index
         render json: @comments
       end
 
       def create
-        @comment = @task.comments.create(comment_params)
-        render json: @comment
+        respond_with :api, :v1, @task.comments.create(comment_params)
       end
 
       def destroy

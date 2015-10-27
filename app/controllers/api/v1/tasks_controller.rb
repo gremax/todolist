@@ -2,14 +2,14 @@ module Api
   module V1
     class TasksController < ApplicationController
       load_and_authorize_resource :project
-      load_and_authorize_resource :task, through: :project
+      load_and_authorize_resource :task, through: :project, shallow: true
 
       def index
         render json: @tasks
       end
 
       def create
-        respond_with :api, :v1, @project, @project.tasks.create(task_params)
+        respond_with :api, :v1, @project.tasks.create(task_params)
       end
 
       def update
