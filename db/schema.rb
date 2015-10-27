@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20151027161241) do
   enable_extension "plpgsql"
 
   create_table "attachments", force: :cascade do |t|
-    t.string   "filename"
-    t.integer  "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "file"
+    t.integer  "comment_id"
   end
 
   add_index "attachments", ["comment_id"], name: "index_attachments_on_comment_id", using: :btree

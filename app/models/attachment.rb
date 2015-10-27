@@ -1,5 +1,7 @@
 class Attachment < ActiveRecord::Base
+  mount_uploader :file, FileUploader
+
   belongs_to :comment
 
-  validates :filename, :comment, presence: true
+  validates :file, :comment, presence: true
 end

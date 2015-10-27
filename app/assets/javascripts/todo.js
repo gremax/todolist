@@ -6,7 +6,8 @@ var todoApp = angular.module('todoApp', [
   'ui.router',
   'ui.sortable',
   'ui.bootstrap.datetimepicker',
-  'ng-token-auth'
+  'ng-token-auth',
+  'ngFileUpload'
 ]);
 
 todoApp.config([

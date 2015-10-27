@@ -28,23 +28,31 @@
                   {{task.title}}
                   %sup {{(task.due_date|date:'yyyy-MM-dd')}}
                 %input.form-control.input-sm.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
-              %div.comments{ng: {controller: 'CommentController as CommentCtrl'}}
-                %div.comment{id: "comment-{{comment.id}}", ng: {repeat: 'comment in task.comments', mouseover: 'optionsComment = true', mouseleave: 'optionsComment = false'}}
+              .comments{ng: {controller: 'CommentController as CommentCtrl'}}
+                .comment{id: "comment-{{comment.id}}", ng: {repeat: 'comment in task.comments', mouseover: 'optionsComment = true', mouseleave: 'optionsComment = false'}}
                   {{comment.body}}
                   .pull-right{ng: {show: 'optionsComment'}}
-                    %span.delete{id: "del-comment-{{comment.id}}", ng: {click: 'deleteComment(comment)'}} &times;
+                    %span.delete{id: "del-comment-{{comment.id}}", ng: {click: 'deleteComment(task.id, comment)'}} &times;
+                  %ul.attachments.list-inline{ng: {show: 'comment.attachments.length'}}
+                    %li{ng: {repeat: 'attach in comment.attachments'}}
+                      %span.glyphicon.glyphicon-file
+                      %a{href: '{{attach.file.file.url}}', download: true} {{attach.id}}
                 %div.new-comment
                   %form{name: 'commentForm', ng: {submit: 'submitComment(task)'}, novalidate: true}
                     %textarea.form-control.input-sm{id: 'new-comment', type: 'text', placeholder: 'Start type new comment...', ng: {model: 'commentData.body'}, required: true}
                     %button.pull-right.btn.btn-sm.btn-success Add comment
-                    %button.btn.btn-sm.btn-primary Attach file
+                    %div.btn.btn-sm.btn-primary{ngf: {select: true, multiple: 'true'}, ng: {model: 'files'}}
+                      Attach files
+                    %div.new-attachments
+                      %p{ng: {repeat: 'file in files'}}
+                        %span.glyphicon.glyphicon-file {{file.name}}
             %td.options-task
               %div.dropdown{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'toggleTaskEdit()'}}
                 %span.glyphicon.glyphicon-comment{id: 'comment-task-{{task.id}}', ng: {click: 'toggleComments()'}}
                 %span.glyphicon.glyphicon-time.dropdown-toggle{id: 'due-task-{{task.id}}', 'data-toggle': 'dropdown'}
                 %span.glyphicon.glyphicon-move
-                %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'deleteTask(task)'}}
+                %span.glyphicon.glyphicon-trash{id: 'del-task-{{task.id}}', ng: {click: 'deleteTask(project.id, task)'}}
                 %ul.dropdown-menu
                   %datetimepicker{ng: {model: 'task.due_date'}, 'on-set-time': 'setDue(task)', datetimepicker: {config: "{ dropdownSelector: '#due-task-{{task.id}}', minView: 'day' }"}}
   %add-project

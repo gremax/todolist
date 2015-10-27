@@ -19,3 +19,6 @@
 
 # Ignore bower components
 /lib/assets/bower_components
+
+# Ignore uploads
+/public/uploads

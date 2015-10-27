@@ -10,6 +10,7 @@
       "angular-bootstrap-datetimepicker": "latest",
       "ng-token-auth": "latest",
       "angular-toastr": "latest",
+      "ng-file-upload": "latest",
       "lodash": "latest"
     }
   },

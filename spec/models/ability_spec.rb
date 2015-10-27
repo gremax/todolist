@@ -33,6 +33,15 @@ RSpec.describe Ability, type: :model do
       it { expect(ability).not_to be_able_to(:update, comment) }
       it { expect(ability).not_to be_able_to(:destroy, comment) }
     end
+
+    context 'for attachments' do
+      let(:attachment) { create(:attachment) }
+
+      it { expect(ability).not_to be_able_to(:read, attachment) }
+      it { expect(ability).not_to be_able_to(:create, Attachment) }
+      it { expect(ability).not_to be_able_to(:update, attachment) }
+      it { expect(ability).not_to be_able_to(:destroy, attachment) }
+    end
   end
 
   describe 'abilities of user' do
@@ -64,6 +73,17 @@ RSpec.describe Ability, type: :model do
       it { expect(ability).to be_able_to(:create, Comment) }
       it { expect(ability).to be_able_to(:update, comment) }
       it { expect(ability).to be_able_to(:destroy, comment) }
+    end
+
+    context 'for attachments' do
+      let!(:task) { create(:task, project: create(:project, user: user)) }
+      let!(:attachment) { create(:attachment, comment: create(:comment,
+        task: task)) }
+
+      it { expect(ability).to be_able_to(:read, attachment) }
+      it { expect(ability).to be_able_to(:create, Attachment) }
+      it { expect(ability).to be_able_to(:update, attachment) }
+      it { expect(ability).to be_able_to(:destroy, attachment) }
     end
   end
 end

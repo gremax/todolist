@@ -17,11 +17,11 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toas
       projectFactory.updateTask(taskData);
     };
 
-    $scope.deleteTask = function(taskData) {
+    $scope.deleteTask = function(projectId, taskData) {
       var confirmation = confirm('Are you sure?');
       if (confirmation) {
         projectFactory.deleteTask(taskData).success(function() {
-          projectFactory.getProjectTasks(taskData.project_id).success(function(data) {
+          projectFactory.getProjectTasks(projectId).success(function(data) {
             $scope.project.tasks = data;
           });
         });

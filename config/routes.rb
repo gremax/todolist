@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       shallow do
         resources :projects, except: [:new, :edit] do
           resources :tasks, except: [:new, :edit] do
-            resources :comments, only: [:index, :create, :destroy]
+            resources :comments, only: [:index, :create, :destroy] do
+              resources :attachments, only: [:create, :destroy]
+            end
           end
         end
       end

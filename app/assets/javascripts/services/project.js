@@ -44,8 +44,8 @@ todoApp.factory('projectFactory', ['$http', function($http) {
       this.taskId = id;
     },
 
-    getTaskComments: function() {
-      var taskId = this.taskId;
+    getTaskComments: function(id) {
+      var taskId = id || this.taskId;
       return $http.get('/api/v1/tasks/' + taskId + '/comments');
     },
 

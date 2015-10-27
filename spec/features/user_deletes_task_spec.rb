@@ -8,7 +8,7 @@ feature 'User removes a task' do
     sleep 0.5
   end
 
-  xscenario 'Remove a task', js: true do
+  scenario 'Authorized user deletes a task', js: true do
     expect(page).to have_content task.title
     find("#task-#{task.id}").hover
     find("#del-task-#{task.id}").click

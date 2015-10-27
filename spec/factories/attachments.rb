@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :attachment do
-    filename "file.png"
+    file { Rack::Test::UploadedFile.new("#{Rails.root}/spec/support/uploads/rg_test_task_grid.png", 'image/png') }
     comment
   end
 
