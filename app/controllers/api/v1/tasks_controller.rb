@@ -5,7 +5,7 @@ module Api
       load_and_authorize_resource :task, through: :project, shallow: true
 
       def index
-        render json: @tasks
+        respond_with @tasks
       end
 
       def create

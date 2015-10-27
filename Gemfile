@@ -19,6 +19,7 @@ gem 'devise_token_auth'
 gem 'omniauth-facebook'
 gem 'cancancan',    '~> 1.10'
 gem 'sprockets',    '2.12.3'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'byebug'

@@ -129,11 +129,14 @@ form .task-input {
 .btn-lg {
   border-radius: 3px;
   height: 46px;
-  background: asset-url('bg-project-btn.png') repeat-x 0 0;
 }
 
 .btn-success {
   background: asset-url('bg-task-btn.png') repeat-x 0 0;
+}
+
+.btn-primary {
+  background: asset-url('bg-project-btn.png') repeat-x 0 0;
 }
 
 .nav li > a:hover,

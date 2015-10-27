@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     render 'layouts/application' 
   end
 
+  def default_serializer_options
+    { root: false }
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     render json: {error: exception.message}, status: :forbidden
   end

@@ -5,7 +5,7 @@ module Api
       load_and_authorize_resource :comment, through: :task, shallow: true
 
       def index
-        render json: @comments
+        respond_with @comments
       end
 
       def create

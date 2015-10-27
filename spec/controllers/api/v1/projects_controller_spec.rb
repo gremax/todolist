@@ -25,6 +25,24 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    let!(:project) { create(:project, user: @user) }
+
+    context 'cancan authorizes show' do
+      before do
+        @ability.cannot :read, Project
+        get :show, id: project
+      end
+
+      it { expect(response).to be_forbidden }
+    end
+
+    it 'assigns a project as @project' do
+      get :show, format: :json, id: project
+      expect(assigns(:project)).to eq project
+    end
+  end
+
   describe 'POST #create' do
     context 'cancan authorizes create' do
       before do

@@ -4,11 +4,11 @@ module Api
       load_and_authorize_resource
 
       def index
-        render json: @projects, include: { tasks: { include: 'comments'} }
+        respond_with @projects
       end
 
       def show
-        render json: @project
+        respond_with @project
       end
 
       def create
