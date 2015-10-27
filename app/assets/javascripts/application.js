@@ -27,6 +27,7 @@
 //= require angular-cookie
 //= require angular-toastr
 //= require lodash
+//= require ng-file-upload
 //= require todo
 //= require_tree ./services
 //= require_tree ./controllers

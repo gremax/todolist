@@ -48,7 +48,7 @@ todoApp.controller('TaskController', ['$scope', '$http', 'projectFactory', 'toas
     };
 
     $scope.toggleComments = function() {
-      $(event.target).closest('tr').find('td.task-title ul.comments').
+      $(event.target).closest('tr').find('td.task-title div.comments').
         toggleClass('comments-on');
     };
 
