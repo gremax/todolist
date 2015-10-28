@@ -1,6 +1,7 @@
 var todoApp = angular.module('todoApp', [
   'ngResource',
   'ngAnimate',
+  'angular-loading-bar',
   'templates',
   'toastr',
   'ui.router',
@@ -62,16 +63,10 @@ todoApp.run(['$auth', '$state', function($auth, $state) {
     });
 }]);
 
-todoApp.directive('projects', function() {
-  return {
-    restrict: 'E',
-    templateUrl: '_projects.html'
-  };
-});
-
 todoApp.directive('addProject', function() {
   return {
     restrict: 'E',
     templateUrl: '_add-project.html'
   };
 });
+

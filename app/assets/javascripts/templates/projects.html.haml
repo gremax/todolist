@@ -6,15 +6,15 @@
           %span.glyphicon.glyphicon-calendar
           %span.view{ng: {dblclick: 'projectEdit()'}}
             {{project.title}}
-          %input.form-control.input-sm.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'editProjectOnEnter(project)'}}
+          %input.form-control.input-sm.edit{id: 'edit-project', type: 'text', ng: {model: 'project.title', keyup: 'editProjectOnEnter(project)'}, autofocus: true, autocomplete: 'off'}
           .pull-right.project-options{ng: {show: 'optionsProject'}}
             %span.glyphicon.glyphicon-pencil{id: 'edit-project-{{project.id}}', ng: {click: 'toggleProjectEdit()'}}
             %span.glyphicon.glyphicon-move
             %span.glyphicon.glyphicon-trash{id: 'del-project-{{project.id}}', ng: {click: 'deleteProject(project.id)'}}
-      .new-task{ng: {class: "{'empty-project':project.tasks.length == 0}"}}
+      .new-task{ng: {class: "{'empty-project':!project.tasks.length}"}}
         %form{name: 'taskForm', ng: {controller: 'TaskController as taskCtrl', submit: 'submitTask(project.id)'}, novalidate: true}
           .input-group.input-group-sm
-            %input.form-control{id: 'new-task', type: 'text', placeholder: 'Start typing here to create a task...', ng: {model: 'taskData.title'}, required: true}
+            %input.form-control{id: 'new-task', type: 'text', placeholder: 'Start typing here to create a task...', ng: {model: 'taskData.title'}, required: true, autocomplete: 'off'}
             .input-group-btn
               %button.btn.btn-success Add task
       %table.table{ng: {controller: 'TaskController as taskCtrl'}}
@@ -27,7 +27,7 @@
                 %span.view{ng: {dblclick: 'taskEdit()'}}
                   {{task.title}}
                   %span.due_date{ng: {show: 'task.due_date'}} {{(task.due_date|date:'yyyy-MM-dd')}}
-                %input.form-control.input-sm.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
+                %input.form-control.input-sm.edit{id: 'edit-task', autofocus: true, autocomplete: 'off', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
               .comments{ng: {controller: 'CommentController as CommentCtrl'}}
                 .comment{id: "comment-{{comment.id}}", ng: {repeat: 'comment in task.comments', mouseover: 'optionsComment = true', mouseleave: 'optionsComment = false'}}
                   {{comment.body}}

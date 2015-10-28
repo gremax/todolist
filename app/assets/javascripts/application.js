@@ -26,10 +26,12 @@
 //= require ng-token-auth
 //= require angular-cookie
 //= require angular-toastr
+//= require angular-loading-bar
 //= require lodash
 //= require ng-file-upload
 //= require todo
 //= require_tree ./services
 //= require_tree ./controllers
+//= require_tree ./directives
 //= require_tree ./templates
 //= require_tree .
