@@ -51,8 +51,9 @@ h2 {
 
 .options-task {
   color: #999;
+  border-left: 1px solid #e7ebea;
   width: 130px;
-  text-align: right;
+  text-align: center;
   font-size: 13px;
   .glyphicon {
     cursor: pointer;
@@ -149,8 +150,12 @@ form .task-input {
   margin-top: 20px;
 }
 
-sup {
-  font-weight: bold;
+.due_date {
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 5px;
+  background-color: #da453d;
+  border-radius: 3px;
 }
 
 .comments {
@@ -169,6 +174,7 @@ sup {
   }
   textarea {
     margin-bottom: 10px;
+    resize: vertical;
   }
   .attachments {
     margin: 0;
@@ -177,6 +183,9 @@ sup {
   .new-attachments {
     margin: 5px;
     font-size: 12px;
+    a {
+      color: red;
+    }
   }
 }
 

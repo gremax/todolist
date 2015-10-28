@@ -26,7 +26,7 @@
               .input-group-sm
                 %span.view{ng: {dblclick: 'taskEdit()'}}
                   {{task.title}}
-                  %sup {{(task.due_date|date:'yyyy-MM-dd')}}
+                  %span.due_date{ng: {show: 'task.due_date'}} {{(task.due_date|date:'yyyy-MM-dd')}}
                 %input.form-control.input-sm.edit{id: 'edit-task', type: 'text', ng: {model: 'task.title', keyup: 'editTaskOnEnter(task)'}}
               .comments{ng: {controller: 'CommentController as CommentCtrl'}}
                 .comment{id: "comment-{{comment.id}}", ng: {repeat: 'comment in task.comments', mouseover: 'optionsComment = true', mouseleave: 'optionsComment = false'}}
@@ -36,16 +36,17 @@
                   %ul.attachments.list-inline{ng: {show: 'comment.attachments.length'}}
                     %li{ng: {repeat: 'attach in comment.attachments'}}
                       %span.glyphicon.glyphicon-file
-                      %a{href: '{{attach.file.file.url}}', download: true} {{attach.id}}
+                      %a{href: '{{attach.file.file.url}}', download: true} {{attach.file_identifier}}
                 %div.new-comment
                   %form{name: 'commentForm', ng: {submit: 'submitComment(task)'}, novalidate: true}
                     %textarea.form-control.input-sm{id: 'new-comment', type: 'text', placeholder: 'Start type new comment...', ng: {model: 'commentData.body'}, required: true}
                     %button.pull-right.btn.btn-sm.btn-success Add comment
-                    %button.btn.btn-sm.btn-primary{ngf: {select: true, multiple: 'true'}, ng: {model: 'files'}}
+                    %button.btn.btn-sm.btn-primary{name: 'attachment', ngf: {select: true, multiple: 'true'}, ng: {model: 'files'}}
                       Attach files
                     %div.new-attachments
                       %p{ng: {repeat: 'file in files'}}
                         %span.glyphicon.glyphicon-file {{file.name}}
+                        %a{id: 'del-attach-{{$index}}', href: '', ng: {click: 'deleteAttach($index)'}} &times;
             %td.options-task
               %div.dropdown{ng: {show: 'optionsTask'}}
                 %span.glyphicon.glyphicon-pencil{id: 'edit-task-{{task.id}}', ng: {click: 'toggleTaskEdit()'}}

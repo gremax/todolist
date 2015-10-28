@@ -13,6 +13,7 @@ todoApp.controller('CommentController', ['$scope', '$http', 'projectFactory', 't
               file: file
             }).success(function(data) {
               $scope.files = [];
+              projectFactory.getTaskComments();
             });
           }
         };
@@ -36,5 +37,11 @@ todoApp.controller('CommentController', ['$scope', '$http', 'projectFactory', 't
           });
         });
       };
+    };
+
+    $scope.deleteAttach = function(index) {
+      if (index > -1) {
+        $scope.files.splice(index, 1);
+      }
     };
 }]);

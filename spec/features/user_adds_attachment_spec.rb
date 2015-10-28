@@ -5,19 +5,17 @@ feature 'User adds attachment' do
 
   background do
     sign_in(user)
+    sleep 1
   end
 
-  xscenario 'Authorized user adds an attachment', js: true do
+  scenario 'Authorized user adds an attachment', js: true do
     find("#task-#{task.id}").hover
     find("#comment-task-#{task.id}").click
-    fill_in 'new-comment', with: 'Urgently!'
-    attach_file 'Attach files', "#{Rails.root}/spec/support/uploads/rg_test_task_grid.png"
+    fill_in 'new-comment', with: 'Test comment'
+    attach_file 'attachment', "#{Rails.root}/spec/support/uploads/rg_test_task_grid.png"
     expect(page).to have_content 'rg_test_task_grid.png'
     click_button 'Add comment'
-    visit '/#/projects'
-    find("#task-#{task.id}").hover
-    find("#comment-task-#{task.id}").click
-    expect(page).to have_content 'Urgently!'
-    expect(page).to have_css "a[href='rg_test_task_grid.png']"
+    expect(page).to have_content 'Test comment'
+    expect(page).to have_link 'rg_test_task_grid.png'
   end
 end
