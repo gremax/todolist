@@ -1,5 +1,6 @@
 language: ruby
 addons:
+  postgresql: "9.4"
   code_climate:
     repo_token: 112f8afc31182dbdeb251b5bcaad4b568c43676e9e5dffe733eb498bc0177292
 bundler_args: --without production
