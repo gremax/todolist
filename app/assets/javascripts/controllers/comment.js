@@ -13,7 +13,9 @@ todoApp.controller('CommentController', ['$scope', '$http', 'projectFactory', 't
               file: file
             }).success(function(data) {
               $scope.files = [];
-              projectFactory.getTaskComments();
+              projectFactory.getTaskComments().success(function(data) {
+                $scope.task.comments = data;
+              });
             });
           }
         };

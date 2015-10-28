@@ -5,6 +5,4 @@
     %li{ng: {hide: 'user.signedIn'}}
       %a{href: '#/signup'} Sign up
     %li{ng: {show: 'user.signedIn'}}
-      %a{href: '#/projects'} {{user.email}}
-    %li{ng: {show: 'user.signedIn'}}
       %a{href: '', ng: {click: 'handleSignOutBtnClick()'}} Sign out

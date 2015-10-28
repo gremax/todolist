@@ -16,4 +16,13 @@ todoApp.controller('SessionController', ['$scope', '$state', '$auth', 'toastr',
           toastr.success('Bye!');
         });
     };
+
+    $scope.getAvatar = function(user) {
+      if(user.image) {
+        return user.image;
+      } else {
+        var email = md5(user.email);
+        return 'http://www.gravatar.com/avatar/' + hash + '?s=30&d=identicon'
+      }
+    };
 }]);
