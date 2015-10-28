@@ -1,0 +1,14 @@
+language: ruby
+addons:
+  code_climate:
+    repo_token: 112f8afc31182dbdeb251b5bcaad4b568c43676e9e5dffe733eb498bc0177292
+bundler_args: --without production
+before_script:
+  - npm install -g bower
+  - bower install
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate
+  - bundle exec rake db:test:prepare
+  - bundle exec rake spec
