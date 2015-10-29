@@ -2,17 +2,19 @@
 %html{ng: { app: 'todoApp' }}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:name => "viewport", content: "width=device-width, initial-scale=1.0"}/
     %title Todolist
     = stylesheet_link_tag    'application'
     = javascript_include_tag 'application'
     = favicon_link_tag
     = csrf_meta_tags
   %body
-    %div{ng: {include: "'_nav.html'"}}
-    .row
-      %h1
-        Simple Todo Lists
-        %br
-        %small From Ruby Garage
-      %ui-view
-    .copyright.text-center &copy; Ruby Garage
+    %div{ng: {include: "'_nav.html'", cloak: true}}
+    .container
+      .row
+        %h1
+          Simple Todo Lists
+          %br
+          %small From Ruby Garage
+        %ui-view
+      .copyright.text-center &copy; Ruby Garage
