@@ -48,42 +48,82 @@ RSpec.describe Ability, type: :model do
     let(:user) { create(:user) }
 
     context 'for projects' do
-      let(:project) { create(:project, user: user) }
+      context 'created by user' do
+        let(:project) { create(:project, user: user) }
 
-      it { expect(ability).to be_able_to(:read, project) }
-      it { expect(ability).to be_able_to(:create, Project) }
-      it { expect(ability).to be_able_to(:update, project) }
-      it { expect(ability).to be_able_to(:destroy, project) }
+        it { expect(ability).to be_able_to(:read, project) }
+        it { expect(ability).to be_able_to(:create, Project) }
+        it { expect(ability).to be_able_to(:update, project) }
+        it { expect(ability).to be_able_to(:destroy, project) }
+      end
+
+      context 'created by others' do
+        let(:project) { create(:project) }
+
+        it { expect(ability).not_to be_able_to(:read, project) }
+        it { expect(ability).not_to be_able_to(:update, project) }
+        it { expect(ability).not_to be_able_to(:destroy, project) }
+      end
     end
 
     context 'for tasks' do
-      let!(:task) { create(:task, project: create(:project, user: user)) }
+      context 'created by user' do
+        let!(:task) { create(:task, project: create(:project, user: user)) }
 
-      it { expect(ability).to be_able_to(:read, task) }
-      it { expect(ability).to be_able_to(:create, Task) }
-      it { expect(ability).to be_able_to(:update, task) }
-      it { expect(ability).to be_able_to(:destroy, task) }
+        it { expect(ability).to be_able_to(:read, task) }
+        it { expect(ability).to be_able_to(:create, Task) }
+        it { expect(ability).to be_able_to(:update, task) }
+        it { expect(ability).to be_able_to(:destroy, task) }
+      end
+
+      context 'created by others' do
+        let!(:task) { create(:task) }
+
+        it { expect(ability).not_to be_able_to(:read, task) }
+        it { expect(ability).not_to be_able_to(:update, task) }
+        it { expect(ability).not_to be_able_to(:destroy, task) }
+      end
     end
 
     context 'for comments' do
-      let!(:task) { create(:task, project: create(:project, user: user)) }
-      let!(:comment) { create(:comment, task: task) }
+      context 'created by user' do
+        let!(:task) { create(:task, project: create(:project, user: user)) }
+        let!(:comment) { create(:comment, task: task) }
 
-      it { expect(ability).to be_able_to(:read, comment) }
-      it { expect(ability).to be_able_to(:create, Comment) }
-      it { expect(ability).to be_able_to(:update, comment) }
-      it { expect(ability).to be_able_to(:destroy, comment) }
+        it { expect(ability).to be_able_to(:read, comment) }
+        it { expect(ability).to be_able_to(:create, Comment) }
+        it { expect(ability).to be_able_to(:update, comment) }
+        it { expect(ability).to be_able_to(:destroy, comment) }
+      end
+
+      context 'created by others' do
+        let!(:comment) { create(:comment) }
+
+        it { expect(ability).not_to be_able_to(:read, comment) }
+        it { expect(ability).not_to be_able_to(:update, comment) }
+        it { expect(ability).not_to be_able_to(:destroy, comment) }
+      end
     end
 
     context 'for attachments' do
-      let!(:task) { create(:task, project: create(:project, user: user)) }
-      let!(:attachment) { create(:attachment, comment: create(:comment,
-        task: task)) }
+      context 'created by user' do
+        let!(:task) { create(:task, project: create(:project, user: user)) }
+        let!(:attachment) { create(:attachment, comment: create(:comment,
+          task: task)) }
 
-      it { expect(ability).to be_able_to(:read, attachment) }
-      it { expect(ability).to be_able_to(:create, Attachment) }
-      it { expect(ability).to be_able_to(:update, attachment) }
-      it { expect(ability).to be_able_to(:destroy, attachment) }
+        it { expect(ability).to be_able_to(:read, attachment) }
+        it { expect(ability).to be_able_to(:create, Attachment) }
+        it { expect(ability).to be_able_to(:update, attachment) }
+        it { expect(ability).to be_able_to(:destroy, attachment) }
+      end
+
+      context 'created by others' do
+        let!(:attachment) { create(:attachment) }
+
+        it { expect(ability).not_to be_able_to(:read, attachment) }
+        it { expect(ability).not_to be_able_to(:update, attachment) }
+        it { expect(ability).not_to be_able_to(:destroy, attachment) }
+      end
     end
   end
 end
