@@ -5,7 +5,6 @@ feature 'User updates a task' do
 
   background do
     sign_in(user)
-    sleep 0.5
   end
 
   scenario 'User updates a task title by double click', js: true do

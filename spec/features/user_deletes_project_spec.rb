@@ -4,7 +4,6 @@ feature 'User removes a project' do
 
   background do
     sign_in(user)
-    sleep 0.1
   end
 
   scenario 'Remove an exist project', js: true do

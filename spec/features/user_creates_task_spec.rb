@@ -4,7 +4,6 @@ feature 'User creates a task' do
 
   background do
     sign_in(user)
-    sleep 0.1
   end
 
   scenario 'Add a new task', js: true do

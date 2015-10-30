@@ -5,7 +5,6 @@ feature 'User adds attachment' do
 
   background do
     sign_in(user)
-    sleep 1
   end
 
   scenario 'Authorized user adds an attachment', js: true do

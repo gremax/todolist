@@ -2,7 +2,6 @@ feature 'User signs up' do
 
   background do
     visit '/#/signup'
-    sleep 0.2
   end
 
   scenario 'User signs up with valid attributes', js: true do
